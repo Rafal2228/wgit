@@ -1,0 +1,19 @@
+{
+  "name": "wgit",
+  "version": "1.0.0",
+  "description": "Just a cli for git",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mc01/wgit.git"
+  },
+  "author": "Mc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mc01/wgit/issues"
+  },
+  "homepage": "https://github.com/Mc01/wgit#readme"
+}
