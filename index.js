@@ -12,8 +12,8 @@ require('./wgit/actions')(wgit)
 
 // Halt and catch fire
 instance = new WatchGit()
-instance.loadConfig('watch.json')
+instance.loadConfig('watch.json ')
 cli.version('1.0.0')
 instance.register(cli, 'status', instance.actionStatus)
-instance.register(cli, 'repo <alias> <delegate> *', instance.actionRepo)
+instance.register(cli, 'tag <tag> <delegate> *', instance.actionTag)
 cli.parse(process.argv)

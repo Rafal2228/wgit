@@ -3,29 +3,31 @@ const format = require('string-format')
 
 module.exports = function (wgit) {
   wgit.actionStatus = function () {
-    var contents = []
-    wgit.contents.local_packages
-      .map(function (item) {
-        var repo = path.join(wgit.contents.global_package, item.package)
-        wgit.executeAction(
-          wgit.format('git -C {} rev-parse --abbrev-ref HEAD', repo), function (res_branch) {
-            wgit.executeAction(wgit.format('git -C {} diff --shortstat', repo), function (res_diff) {
-              res = [res_branch, res_diff]
-              wgit.printPretty(item, res)
-            })
+    wgit.projects
+      .map(function (project) {
+        project.repos.map(function (repo) {
+          var dir = path.join(project.root, repo.repo)
+          wgit.executeAction(
+            wgit.format('git -C {} rev-parse --abbrev-ref HEAD', dir), function (res_branch) {
+              wgit.executeAction(wgit.format('git -C {} diff --shortstat', dir), function (res_diff) {
+                var res = [res_branch, res_diff]
+                wgit.printPretty(repo, res)
+              })
+          })
         })
       })
   }
 
-  wgit.actionRepo = function (alias, delegate, args) {
-    var index = wgit.repos.indexOf(alias)
+  wgit.actionTag = function (tag, delegate) {
+    var index = wgit.tags.indexOf(tag)
     if (index != -1) {
-      var item = wgit.contents.local_packages[index]
-      var repo = path.join(wgit.contents.global_package, item.package)
-      wgit.executeAction(wgit.format('git -C {} {}', repo, delegate), function (res_delegate) {
-        res = [res_delegate]
-        wgit.printPretty(item, res)
-        console.log(args)
+      var tagged = wgit.browse(tag)
+      tagged.map(function (item) {
+        var repo = path.join(item[0], item[1].repo)
+        wgit.executeAction(wgit.format('git -C {} {}', repo, delegate), function (res_delegate) {
+          var res = [res_delegate]
+          wgit.printPretty(item[1], res)
+        })
       })
     } else {
       console.log(wgit.chalk.red('Incorrect repo alias.'))
