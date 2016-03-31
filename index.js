@@ -2,18 +2,23 @@
 
 const cli = require('commander')
 
-// Declare class with prototype
 const WatchGit = function () {}
 const wgit = WatchGit.prototype
 
-// Load dependencies
-require('./wgit/utils')(wgit)
-require('./wgit/actions')(wgit)
+var _load = function (items) {
+    items.map(function (item) {
+        require('./wgit/' + item)(wgit)
+    })
+}
+_load(['exports', 'loader', 'core', 'actions'])
 
-// Halt and catch fire
 instance = new WatchGit()
-instance.loadConfig('watch.json ')
-cli.version('1.0.0')
-instance.register(cli, 'status', instance.actionStatus)
-instance.register(cli, 'tag <tag> <delegate> *', instance.actionTag)
+instance.loadConfig('.wgit.json')
+instance.register(cli, 'list', instance.actionStatus)
+// instance.default(cli, 'help', instance.actionHelp)
+// instance.register(cli, 'init', instance.actionInit)
+instance.register(cli, 'status <tag>', instance.actionTagStatus)
+instance.register(cli, 'branch <tag>', instance.actionTagBranch)
+instance.register(cli, 'diff <tag>', instance.actionTagDiff)
+instance.register(cli, 'apply <tag>', instance.actionApply)
 cli.parse(process.argv)
