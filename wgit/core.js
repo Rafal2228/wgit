@@ -1,4 +1,6 @@
 const cmd = require('cmd-exec')
+const chalk = require('chalk')
+const format = require('string-format')
 
 module.exports = function (wgit) {
   wgit
@@ -45,21 +47,30 @@ module.exports = function (wgit) {
   }
 
   wgit
-    .printPretty = function (repo, res, sub) {
+    .printPretty = function (repo, res) {
     var message = wgit.trimItem(res)
-    var optional = sub ? wgit.trimRightItem(sub) : []
     if (message.length) {
       message = message.join(', ')
       console.log(
-        wgit.chalk.blue(repo.name),
-        wgit.chalk.green(wgit.format('({})', repo.tag)),
-        wgit.chalk.yellow(message)
+        chalk.blue(repo.name),
+        chalk.green(format('({})', repo.tag)),
+        chalk.yellow(message)
       )
-      if (optional.length) {
-        console.log(
-          wgit.chalk.grey(optional)
-        )
-      }
+    }
+  }
+
+  wgit
+    .printSub = function (repo, _sub, _message) {
+    var sub = wgit.trimItem(_sub)
+    var message = _message ? wgit.trimRightItem(_message) : []
+    if (sub.length) {
+      sub = sub.join(', ')
+      console.log(
+        chalk.blue(repo.name),
+        chalk.green(format('({})', repo.tag)),
+        chalk.red(format('({})', sub)),
+        chalk.yellow(message)
+      )
     }
   }
 }

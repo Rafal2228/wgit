@@ -41,7 +41,7 @@ module.exports = function (wgit) {
       wgit.projects = require(file).projects
       wgit.tags = wgit.scan()
     } else {
-      console.log('No valid file found.')
+      console.log('No valid root found.')
       process.exit(1)
     }
   }

@@ -4,9 +4,6 @@
   "preferGlobal": true,
   "description": "Just a cli for git",
   "main": "wgit.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Mc01/wgit.git"
@@ -25,10 +22,23 @@
     "path": "^0.12.7",
     "string-format": "^0.5.0"
   },
+  "devDependencies": {
+    "ava": "^0.14.0",
+    "tap-summary": "^1.2.0"
+  },
+  "scripts": {
+    "test": "ava --tap | tap-summary"
+  },
   "bin": {
     "wgit": "wgit.js"
   },
   "engines": {
     "node": ">= 0.10.x"
+  },
+  "ava": {
+    "files": [
+      "test/*.test.js"
+    ],
+    "failFast": true
   }
 }
