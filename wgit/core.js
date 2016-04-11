@@ -25,7 +25,7 @@ module.exports = function (wgit) {
     .cleanItem = function (res, callback) {
     return res
       .map(function (item) {
-        return item.message ? callback(item.message) : []
+        return item.message ? callback(item.message) : ''
       })
       .filter(function (item) {
         return item.length > 0

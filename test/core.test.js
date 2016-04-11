@@ -1,24 +1,124 @@
 const ava = require('ava')
+const clearRequire = require('clear-require')
 const core = require('../wgit/core')
-const cli = require('commander')
+
+ava('require commander', function (test) {
+  try {
+    clearRequire('commander')
+    require('commander')
+    test.pass()
+  } catch (e) {
+    test.fail()
+  }
+})
 
 ava('import register', function (test) {
   var dummy = {}
-  test.false(!!dummy.register)
+  test.falsy(dummy.register)
   core(dummy)
-  test.true(!!dummy.register)
+  test.truthy(dummy.register)
 })
 
-ava('try register', function (test) {
+ava.cb('try register', function (test) {
+  clearRequire('commander')
+  const cli = require('commander')
   var dummy = {}
   core(dummy)
-  dummy.register(cli, 'try', function () {})
-  test.pass()
+  test.plan(1)
+  dummy.register(cli, 'keyword', function () {
+    test.pass()
+    test.end()
+  })
+  cli.parse(['node', 'file', 'keyword'])
 })
 
 ava('import executeAction', function (test) {
   var dummy = {}
-  test.false(!!dummy.executeAction)
+  test.falsy(dummy.executeAction)
   core(dummy)
-  test.true(!!dummy.executeAction)
+  test.truthy(dummy.executeAction)
+})
+
+ava.cb('try executeAction', function (test) {
+  var dummy = {}
+  core(dummy)
+  test.plan(2)
+  dummy.executeAction('echo win', function (item) {
+    test.truthy(item)
+    test.is(item.message, 'win\n')
+    test.end()
+  })
+})
+
+ava('import cleanItem', function (test) {
+  var dummy = {}
+  test.falsy(dummy.cleanItem)
+  core(dummy)
+  test.truthy(dummy.cleanItem)
+})
+
+ava('try cleanItem', function (test) {
+  var dummy = {}
+  core(dummy)
+  var items = [
+    {message: 'valid'},
+    {message: ''},
+    {message: null},
+    {}
+  ]
+  items = dummy.cleanItem(items, function (i) { return i })
+  test.deepEqual(items, ['valid'])
+})
+
+ava('import trimItem', function (test) {
+  var dummy = {}
+  test.falsy(dummy.trimItem)
+  core(dummy)
+  test.truthy(dummy.trimItem)
+})
+
+ava('try trimItem', function (test) {
+  var dummy = {}
+  core(dummy)
+  var items = [
+    {message: ' valid \n'},
+    {message: ' \nvalid'},
+    {message: 'valid\n '},
+    {message: 'valid'},
+    {message: ''},
+    {message: null},
+    {}
+  ]
+  items = dummy.trimItem(items, function (i) { return i })
+  test.deepEqual(items, ['valid', 'valid', 'valid', 'valid'])
+})
+
+ava('import trimRightItem', function (test) {
+  var dummy = {}
+  test.falsy(dummy.trimRightItem)
+  core(dummy)
+  test.truthy(dummy.trimRightItem)
+})
+
+ava('try trimRightItem', function (test) {
+  var dummy = {}
+  core(dummy)
+  var items = [
+    {message: ' valid \n'},
+    {message: ' \nvalid'},
+    {message: 'valid\n '},
+    {message: 'valid'},
+    {message: ''},
+    {message: null},
+    {}
+  ]
+  items = dummy.trimRightItem(items, function (i) { return i })
+  test.deepEqual(items, [' valid ', ' \nvalid', 'valid\n ', 'valid'])
+})
+
+ava('import trimRightItem', function (test) {
+  var dummy = {}
+  test.falsy(dummy.trimRightItem)
+  core(dummy)
+  test.truthy(dummy.trimRightItem)
 })

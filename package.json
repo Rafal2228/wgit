@@ -24,10 +24,11 @@
   },
   "devDependencies": {
     "ava": "^0.14.0",
-    "tap-summary": "^1.2.0"
+    "clear-require": "^1.0.1"
   },
   "scripts": {
-    "test": "ava --tap | tap-summary"
+    "start": "node wgit.js",
+    "test": "ava"
   },
   "bin": {
     "wgit": "wgit.js"

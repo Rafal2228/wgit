@@ -97,7 +97,7 @@ module.exports = function (wgit) {
   }
 
   wgit
-    .executeDunk = function (item, _) {
+    .executeDunk = function (item) {
     var dir = path.join(item[0], item[1].repo)
     dir = dir.replace('~', wgit.home)
     process.chdir(dir)

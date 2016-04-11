@@ -27,7 +27,7 @@ instance.register(cli, 'pull <tag>', instance.actionDelegate)
 instance.register(cli, 'dunk <tag>', instance.actionDunk)
 
 cli.version('0.1.4', '-v, --version')
-cli.parse(process.argv)
-if (!process.argv.slice(2).length) {
+cli.parse(wgit.args)
+if (!wgit.args.slice(2).length) {
   cli.help(function (i) {return i})
 }
