@@ -2,6 +2,36 @@ const ava = require('ava')
 const clearRequire = require('clear-require')
 const core = require('../wgit/core')
 
+ava('require cmd-exec', function (test) {
+  try {
+    clearRequire('cmd-exec')
+    require('cmd-exec')
+    test.pass()
+  } catch (e) {
+    test.fail()
+  }
+})
+
+ava('require chalk', function (test) {
+  try {
+    clearRequire('chalk')
+    require('chalk')
+    test.pass()
+  } catch (e) {
+    test.fail()
+  }
+})
+
+ava('require string-format', function (test) {
+  try {
+    clearRequire('string-format')
+    require('string-format')
+    test.pass()
+  } catch (e) {
+    test.fail()
+  }
+})
+
 ava('require commander', function (test) {
   try {
     clearRequire('commander')
@@ -116,9 +146,16 @@ ava('try trimRightItem', function (test) {
   test.deepEqual(items, [' valid ', ' \nvalid', 'valid\n ', 'valid'])
 })
 
-ava('import trimRightItem', function (test) {
+ava('import printPretty', function (test) {
   var dummy = {}
-  test.falsy(dummy.trimRightItem)
+  test.falsy(dummy.printPretty)
   core(dummy)
-  test.truthy(dummy.trimRightItem)
+  test.truthy(dummy.printPretty)
+})
+
+ava('import printSub', function (test) {
+  var dummy = {}
+  test.falsy(dummy.printSub)
+  core(dummy)
+  test.truthy(dummy.printSub)
 })

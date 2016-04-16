@@ -14,6 +14,18 @@ module.exports = function (wgit) {
   }
 
   wgit
+    .loadConfig = function (filename) {
+    var file = find(filename, {cwd: wgit.home})
+    if (file) {
+      wgit.projects = require(file).projects
+      wgit.tags = wgit.scan()
+    } else {
+      console.log('No valid root found.')
+      process.exit(1)
+    }
+  }
+
+  wgit
     ._tagged = function (items, tag) {
     return items
       .filter(function (item) {
@@ -32,17 +44,5 @@ module.exports = function (wgit) {
       .filter(function (item) {
         return item != null
       })
-  }
-
-  wgit
-    .loadConfig = function (filename) {
-    var file = find(filename, {cwd: wgit.home})
-    if (file) {
-      wgit.projects = require(file).projects
-      wgit.tags = wgit.scan()
-    } else {
-      console.log('No valid root found.')
-      process.exit(1)
-    }
   }
 }
