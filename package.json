@@ -24,11 +24,14 @@
   },
   "devDependencies": {
     "ava": "^0.14.0",
-    "clear-require": "^1.0.1"
+    "clear-require": "^1.0.1",
+    "coveralls": "^2.11.9",
+    "nyc": "^6.4.0"
   },
   "scripts": {
     "start": "node wgit.js",
-    "test": "ava"
+    "test": "nyc ava",
+    "report": "nyc report --reporter=html"
   },
   "bin": {
     "wgit": "wgit.js"
