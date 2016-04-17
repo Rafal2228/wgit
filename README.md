@@ -64,27 +64,35 @@ Located in ~/.wgit.json
 
 ```json
 {
-  "projects": [{
-    "name": "Project A",
-    "root": "~/Projects/project_a",
-    "repos": [{
-      "name": "Dev 1",
-      "tag": "dev1",
-      "repo": "main/dev/1"
-    }, {
-      "name": "Dev 2",
-      "tag": "dev2",
-      "repo": "branch/dev/2"
-    }]
-  }, {
-    "name": "Project B",
-    "root": "~/Projects/old/project_b",
-    "repos": [{
-      "name": "Old master",
-      "tag": "old",
-      "repo": "/"
-    }]
-  }]
+  "projects": [
+    {
+      "name": "Project A",
+      "root": "~/Projects/project_a",
+      "repos": [
+        {
+          "name": "Dev 1",
+          "tag": "dev1",
+          "repo": "main/dev/1"
+        },
+        {
+          "name": "Dev 2",
+          "tag": "dev2",
+          "repo": "branch/dev/2"
+        }
+      ]
+    },
+    {
+      "name": "Project B",
+      "root": "~/Projects/old/project_b",
+      "repos": [
+        {
+          "name": "Old master",
+          "tag": "old",
+          "repo": "/"
+        }
+      ]
+    }
+  ]
 }
 ```
 
