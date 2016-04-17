@@ -23,7 +23,7 @@ Simple cli for managing multiple projects in git
 
 ### Init wgit
 
-```
+```bash
 > wgit init
 ```
 
@@ -48,8 +48,8 @@ Simple cli for managing multiple projects in git
 
 ### Jump into repo
 
-```
-> cd `wgit dunk [tag]`
+```bash
+> cd $(wgit dunk [tag])
 ```
 
 ## License
