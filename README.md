@@ -31,9 +31,9 @@ Initialize config file in ~/.wgit.json
 
 ### List projects
 
-Lists all projects from config file
+List all projects from config file
 
-```bash
+```bashg
 > wgit list
 ```
 
