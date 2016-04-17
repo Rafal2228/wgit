@@ -33,7 +33,7 @@ Initialize config file in ~/.wgit.json
 
 List all projects from config file
 
-```bashg
+```bash
 > wgit list
 ```
 
