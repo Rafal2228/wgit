@@ -52,6 +52,12 @@ Simple cli for managing multiple projects in git
 > cd $(wgit dunk [tag])
 ```
 
+#### or
+
+```bash
+> cd `wgit dunk [tag]`
+```
+
 ## License
 
 MIT
