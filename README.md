@@ -1,10 +1,32 @@
 # wgit
 
-[![Build Status](https://travis-ci.org/Mc01/wgit.svg?branch=master)](https://travis-ci.org/Mc01/wgit)
-[![Coverage Status](https://coveralls.io/repos/github/Mc01/wgit/badge.svg?branch=master)](https://coveralls.io/github/Mc01/wgit?branch=master)
-[![Dependencies Status](https://david-dm.org/Mc01/wgit.svg)](https://david-dm.org/Mc01/wgit.svg)
+[![Build Status][travis-image]][travis-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
+[![Dependencies Status][david-image]][david-url]
 
-    simple cli for git
-    based on .watch file
-    to manage many repos
-    at once
+Simple cli for managing multiple projects in git
+
+## Install globally
+
+```bash
+npm install --global
+```
+
+## Install for development
+
+```bash
+npm install --dev
+```
+
+## License
+
+MIT
+
+[travis-image]: https://travis-ci.org/Mc01/wgit.svg?branch=master
+[travis-url]: https://travis-ci.org/Mc01/wgit
+
+[coveralls-image]: https://coveralls.io/repos/github/Mc01/wgit/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/Mc01/wgit?branch=master
+
+[david-image]: https://david-dm.org/Mc01/wgit.svg
+[david-url]: https://david-dm.org/Mc01/wgit

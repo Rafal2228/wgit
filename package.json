@@ -18,7 +18,7 @@
     "chalk": "^1.1.1",
     "cmd-exec": "^0.1.0",
     "commander": "^2.9.0",
-    "findup-sync": "^0.3.0",
+    "findup-sync": "^0.4.0",
     "path": "^0.12.7",
     "string-format": "^0.5.0"
   },
