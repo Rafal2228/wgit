@@ -10,13 +10,46 @@ Simple cli for managing multiple projects in git
 ## Install globally
 
 ```bash
-npm install --global
+> npm install --global
 ```
 
 ## Install for development
 
 ```bash
-npm install --dev
+> npm install --dev
+```
+
+## Usage
+
+### Init wgit
+
+```
+> wgit init
+```
+
+### List projects
+
+```bash
+> wgit list
+```
+
+### Remote commands
+
+```bash
+> wgit status [tag]
+> wgit submodule [tag]
+> wgit branch [tag]
+> wgit tag [tag]
+> wgit diff [tag]
+> wgit cached [tag]
+> wgit fetch [tag]
+> wgit pull [tag]
+```
+
+### Jump into repo
+
+```
+> cd `wgit dunk [tag]`
 ```
 
 ## License
