@@ -23,17 +23,23 @@ Simple cli for managing multiple projects in git
 
 ### Init wgit
 
+Initialize config file in ~/.wgit.json
+
 ```bash
 > wgit init
 ```
 
 ### List projects
 
+Lists all projects from config file
+
 ```bash
 > wgit list
 ```
 
 ### Remote commands
+
+Runs git commands remotely for project
 
 ```bash
 > wgit status [tag]
@@ -47,6 +53,8 @@ Simple cli for managing multiple projects in git
 ```
 
 ### Jump into repo
+
+Changes directory to specified in project
 
 ```bash
 > cd $(wgit dunk [tag])
