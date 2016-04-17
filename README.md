@@ -2,7 +2,8 @@
 
 [![Build Status][travis-image]][travis-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
-[![Dependencies Status][david-image]][david-url]
+[![Dependency Status][david-image]][david-url]
+[![devDependency Status][david-dev-image]][david-dev-url]
 
 Simple cli for managing multiple projects in git
 
@@ -30,3 +31,6 @@ MIT
 
 [david-image]: https://david-dm.org/Mc01/wgit.svg
 [david-url]: https://david-dm.org/Mc01/wgit
+
+[david-dev-image]: https://david-dm.org/Mc01/wgit/dev-status.svg
+[david-dev-url]: https://david-dm.org/Mc01/wgit#info=devDependencies
