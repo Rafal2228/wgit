@@ -1,24 +1,16 @@
-const cmd = require('cmd-exec')
-const chalk = require('chalk')
-const format = require('string-format')
+const cmd = require('cmd-exec').init();
+const chalk = require('chalk');
+const format = require('string-format');
 
 module.exports = function (wgit) {
-  wgit
-    .register = function (cli, command, action) {
+  wgit.register = function (cli, command, action) {
     cli
       .command(command)
       .action(action)
   }
 
-  wgit
-    .executeAction = function (command, success) {
-    cmd
-      .init()
-      .exec(command)
-      .then(success)
-      .fail(function (err) {
-        console.log(err.message)
-      })
+  wgit.executeAction = function (command) {
+    return cmd.exec(command);
   }
 
   wgit

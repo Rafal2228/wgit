@@ -5,13 +5,17 @@ const format = require('string-format')
 module.exports = function (wgit) {
   wgit
     .actionInit = function () {
-    var root = path.dirname(wgit.root)
-    var template = path.join(root, 'templates/template.json')
-    var target = path.join(wgit.home, '.wgit.json')
-    var cmd = format('cp {} {}', template, target)
-    wgit.executeAction(cmd, function (_) {
+    var root = path.dirname(wgit.root);
+    var template = path.join(root, 'templates/template.json');
+    var target = path.join(wgit.home, '.wgit.json');
+    var cmd = format('cp {} {}', template, target);
+    wgit.executeAction(cmd)
+    .then(function () {
       console.log(chalk.green(format('Now you can set your projects in {}', target)))
     })
+    .catch(function (msg) {
+      console.log(chalk.red(msg));
+    });
   }
 
   wgit

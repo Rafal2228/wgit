@@ -7,7 +7,7 @@ const wgit = WatchGit.prototype
 
 var _load = function (items) {
   items.map(function (item) {
-    require('./wgit/' + item)(wgit)
+    require('./' + item)(wgit)
   })
 }
 _load(['exports', 'loader', 'core', 'actions'])
