@@ -2,6 +2,17 @@ const ava = require('ava');
 const clearRequire = require('clear-require');
 const loader = require('../lib/loader');
 
+ava.afterEach((t) => {
+  clearRequire('../lib/loader');
+})
+
+ava('import exports', function (test) {
+  var dummy = loader('.wgit.json');
+  test.truthy(dummy.args)
+  test.truthy(dummy.home)
+  test.truthy(dummy.root)
+})
+
 ava('require findup-sync', function (test) {
   try {
     clearRequire('findup-sync')
@@ -13,75 +24,58 @@ ava('require findup-sync', function (test) {
 })
 
 ava('import scan', function (test) {
-  var dummy = {}
-  test.falsy(dummy.scan)
-  loader(dummy)
+  var dummy = loader('.wgit.json')
   test.truthy(dummy.scan)
 })
 
 ava('try scan', function (test) {
-  var dummy = {
-    projects: [
-      {
-        repos: [{tag: 'one'}, {tag: 'two'}, {tag:'three'}]
-      },
-      {
-        repos: [{tag: 'four'}, {tag: 'five'}]
-      }
-    ]
-  }
-  loader(dummy)
-  var tags = dummy.scan()
-  test.deepEqual(tags, ['one', 'two', 'three', 'four', 'five'])
-})
+  var dummy = loader('.wgit.json')
+  dummy.projects = [
+    {
+      repos: [{tag: 'one'}, {tag: 'two'}, {tag:'three'}]
+    },
+    {
+      repos: [{tag: 'four'}, {tag: 'five'}]
+    }
+  ]
+  dummy.scan()
 
-ava('import loadConfig', function (test) {
-  var dummy = {}
-  test.falsy(dummy.loadConfig)
-  loader(dummy)
-  test.truthy(dummy.loadConfig)
+  test.deepEqual(dummy.tags, ['one', 'two', 'three', 'four', 'five'])
 })
 
 ava('import _tagged', function (test) {
-  var dummy = {}
-  test.falsy(dummy._tagged)
-  loader(dummy)
+  var dummy = loader('.wgit.json');
   test.truthy(dummy._tagged)
 })
 
 ava('try _tagged', function (test) {
   var items = [{tag: 'one'}, {tag: 'two'}, {tag: 'three'}]
-  var dummy = {}
-  loader(dummy)
+  var dummy = loader('.wgit.json')
   var tags = dummy._tagged(items, 'two')
   test.deepEqual(tags, {tag: 'two'})
 })
 
 ava('import browse', function (test) {
-  var dummy = {}
-  test.falsy(dummy.browse)
-  loader(dummy)
+  var dummy = loader('.wgit.json')
   test.truthy(dummy.browse)
 })
 
 ava('try browse', function (test) {
-  var dummy = {
-    projects: [
-      {
-        root: 'a',
-        repos: [
-          {tag: 'one'}, {tag: 'two'}, {tag: 'three'}
-        ]
-      },
-      {
-        root: 'b',
-        repos: [
-          {tag: 'four'}, {tag: 'five'}
-        ]
-      }
-    ]
-  }
-  loader(dummy)
+  var dummy = loader('.wgit.json')
+  dummy.projects = [
+    {
+      root: 'a',
+      repos: [
+        {tag: 'one'}, {tag: 'two'}, {tag: 'three'}
+      ]
+    },
+    {
+      root: 'b',
+      repos: [
+        {tag: 'four'}, {tag: 'five'}
+      ]
+    }
+  ]
   var good_repo = dummy.browse('two')
   test.deepEqual(good_repo, [['a', {tag: 'two'}]])
   var bad_repo = dummy.browse('9000')

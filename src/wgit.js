@@ -1,37 +1,59 @@
-#!/usr/bin/env node
+const cmd = require('cmd-exec').init();
+const chalk = require('chalk');
 
-const cli = require('commander');
+class WatchGit {
 
-const WatchGit = function () {};
+  register(cli, command, action) {
+    cli.command(command).action(action);
+  }
 
-const wgit = WatchGit.prototype;
+  executeAction(command) {
+    cmd.exec(command);
+  }
 
-let _load = (items) => {
-  items.map((item) => {
-    require('./' + item)(wgit);
-  });
-};
+  cleanItem(res, callback) {
+    return res
+      .map((item) => item.message ? callback(item.message) : '')
+      .filter((item) => item.length > 0);
+  }
 
-_load(['exports', 'loader', 'core', 'actions']);
+  trimItem(res) {
+    return this.cleanItem(res, (item) => item.trim());
+  }
 
-let instance = new WatchGit();
+  trimRightItem(res) {
+    return this.cleanItem(res, (item) => item.replace(/\n+$/, ''));
+  }
 
-instance.loadConfig('.wgit.json');
-instance.register(cli, 'init', instance.actionInit);
-instance.register(cli, 'list', instance.actionList);
-instance.register(cli, 'status <tag>', instance.actionDelegate);
-instance.register(cli, 'submodule <tag>', instance.actionDelegate);
-instance.register(cli, 'branch <tag>', instance.actionDelegate);
-instance.register(cli, 'tag <tag>', instance.actionDelegate);
-instance.register(cli, 'diff <tag>', instance.actionDelegate);
-instance.register(cli, 'cached <tag>', instance.actionCached);
-instance.register(cli, 'fetch <tag>', instance.actionDelegate);
-instance.register(cli, 'pull <tag>', instance.actionDelegate);
-instance.register(cli, 'dunk <tag>', instance.actionDunk);
+  printPretty(repo, res) {
+    let message = this.trimItem(res);
+    if (!message.length) {
+      return;
+    }
 
-cli.version('0.1.4', '-v, --version');
-cli.parse(wgit.args);
+    message = message.join(', ');
+    console.log(
+      chalk.blue(repo.name),
+      chalk.green(`(${repo.tag})`),
+      chalk.yellow(message)
+    );
+  }
 
-if (!wgit.args.slice(2).length) {
-  cli.help((i) => i);
+  printSub(repo, _sub, _message) {
+    let sub = this.trimItem(_sub);
+    let message = _message ? this.trimRightItem(_message) : [];
+    if (!sub.length) {
+      return;
+    }
+
+    sub = sub.join(', ');
+    console.log(
+      chalk.blue(repo.name),
+      chalk.green(`(${repo.tag})`),
+      chalk.red(`(${sub})`),
+      chalk.yellow(message)
+    );
+  }
 }
+
+module.exports = new WatchGit();
