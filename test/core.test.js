@@ -144,5 +144,5 @@ ava('import printSub', function (test) {
   var dummy = {}
   test.falsy(dummy.printSub)
   core(dummy)
-  test.truthy(dummy.printSub, 'function')
+  test.truthy(dummy.printSub)
 })
