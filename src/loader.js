@@ -1,7 +1,7 @@
 const find = require('findup-sync');
 
 module.exports = function (wgit) {
-  wgit.scan = () => {
+  wgit.scan = function () {
     let tags = [];
     let append = (item) => tags.push(item.tag);
 
@@ -12,7 +12,7 @@ module.exports = function (wgit) {
     return tags;
   };
 
-  wgit.loadConfig = (filename) => {
+  wgit.loadConfig = function (filename) {
     let file = find(filename, { cwd: this.home });
     if (file) {
       this.projects = require(file).projects;
@@ -23,12 +23,16 @@ module.exports = function (wgit) {
     }
   };
 
-  wgit._tagged = (items, tag) => items.filter((item) => item.tag === tag).shift();
+  wgit._tagged = function (items, tag) {
+    return items.filter((item) => item.tag === tag).shift();
+  };
 
-  wgit.browse = (tag) => this.projects
+  wgit.browse = function (tag) {
+    return this.projects
     .map((item) => {
       let repo = this._tagged(item.repos, tag);
       return repo ? [item.root, repo] : null;
     })
     .filter((item) => item !== null);
+  };
 };

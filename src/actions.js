@@ -2,7 +2,7 @@ const path = require('path');
 const chalk = require('chalk');
 
 module.exports = function (wgit) {
-  wgit.actionInit = () => {
+  wgit.actionInit = function () {
     let root = path.dirname(this.root);
     let template = path.join(root, 'templates/template.json');
     let target = path.join(this.home, '.wgit.json');
@@ -16,7 +16,7 @@ module.exports = function (wgit) {
     });
   };
 
-  wgit.actionList = () => {
+  wgit.actionList = function () {
     this.projects.map((project) => {
       project.repos.map((repo) => {
         let dir = path.join(project.root, repo.repo);
@@ -25,7 +25,7 @@ module.exports = function (wgit) {
     });
   };
 
-  wgit.executeStatus = (callback, repo, dir) => {
+  wgit.executeStatus = function (callback, repo, dir) {
     let args = {
       branch: `git -C ${dir} rev-parse --abbrev-ref HEAD`,
       diff: `git -C ${dir} diff --shortstat`,
@@ -42,7 +42,7 @@ module.exports = function (wgit) {
     });
   };
 
-  wgit.executeSub = (res, repo, dir) => {
+  wgit.executeSub = function (res, repo, dir) {
     let sub = `git -C ${dir} submodule | cut -d\' \' -f3`;
     this.executeAction(sub)
     .then((resSub) => {
@@ -61,16 +61,20 @@ module.exports = function (wgit) {
     });
   };
 
-  wgit.actionDelegate = (tag) => {
+  wgit.actionDelegate = function (tag) {
     let delegate = this.args[2];
     return wgit.actionTag(tag, delegate, this.executeRemote);
   };
 
-  wgit.actionCached = (tag) => this.actionTag(tag, 'diff --cached', this.executeRemote);
+  wgit.actionCached = function (tag) {
+    this.actionTag(tag, 'diff --cached', this.executeRemote);
+  };
 
-  wgit.actionDunk = (tag) => this.actionTag(tag, null, this.executeDunk);
+  wgit.actionDunk = function (tag) {
+    this.actionTag(tag, null, this.executeDunk);
+  };
 
-  wgit.actionTag = (tag, delegate, remote) => {
+  wgit.actionTag = function (tag, delegate, remote) {
     let index = this.tags.indexOf(tag);
     if (index !== -1) {
       let tagged = this.browse(tag);
@@ -80,7 +84,7 @@ module.exports = function (wgit) {
     }
   };
 
-  wgit.executeRemote = (item, delegate) => {
+  wgit.executeRemote = function (item, delegate) {
     let dir = path.join(item[0], item[1].repo);
     let cmd = `git -C ${dir} ${delegate}`;
     this.executeAction(cmd, (resDelegate) => {
@@ -88,9 +92,9 @@ module.exports = function (wgit) {
     });
   };
 
-  wgit.executeDunk = (item) => {
+  wgit.executeDunk = function (item) {
     let dir = path.join(item[0], item[1].repo);
-    dir = dir.replace('~', wgit.home);
+    dir = dir.replace('~', this.home);
     process.chdir(dir);
     console.log(process.cwd());
   };

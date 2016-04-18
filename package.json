@@ -37,7 +37,7 @@
     "compile": "babel -d lib/ src/",
     "prestart": "npm run compile",
     "start": "node lib/wgit.js",
-    "test": "nyc ava",
+    "test": "npm run compile && nyc ava",
     "report": "nyc report --reporter=html",
     "lint": "jshint ./src && jscs ./src",
     "validate": "npm ls"

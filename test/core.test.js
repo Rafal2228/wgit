@@ -22,16 +22,6 @@ ava('require chalk', function (test) {
   }
 })
 
-ava('require string-format', function (test) {
-  try {
-    clearRequire('string-format')
-    require('string-format')
-    test.pass()
-  } catch (e) {
-    test.fail()
-  }
-})
-
 ava('require commander', function (test) {
   try {
     clearRequire('commander')
@@ -119,7 +109,7 @@ ava('try trimItem', function (test) {
     {message: null},
     {}
   ]
-  items = dummy.trimItem(items, function (i) { return i })
+  items = dummy.trimItem(items)
   test.deepEqual(items, ['valid', 'valid', 'valid', 'valid'])
 })
 

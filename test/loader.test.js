@@ -1,6 +1,6 @@
-const ava = require('ava')
-const clearRequire = require('clear-require')
-const loader = require('../lib/loader')
+const ava = require('ava');
+const clearRequire = require('clear-require');
+const loader = require('../lib/loader');
 
 ava('require findup-sync', function (test) {
   try {

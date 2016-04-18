@@ -8,15 +8,25 @@ module.exports = function (wgit) {
 
   wgit.executeAction = (command) => cmd.exec(command);
 
-  wgit.cleanItem = (res, callback) => res
-    .map((item) => item.message ? callback(item.message) : '')
-    .filter((item) => item.length > 0);
+  wgit.cleanItem = function (res, callback) {
+    return res
+      .map((item) => item.message ? callback(item.message) : '')
+      .filter((item) => item.length > 0);
+  };
 
-  wgit.trimItem = (res) => this.cleanItem(res, (item) => item.trim());
+  wgit.trimItem = function (res) {
+    let callback = function (item) {
+      return item.trim();
+    };
 
-  wgit.trimRightItem = (res) => this.cleanItem(res, (item) => item.replace(/\n+$/, ''));
+    return this.cleanItem(res, callback);
+  };
 
-  wgit.printPretty = (repo, res) => {
+  wgit.trimRightItem = function (res) {
+    return this.cleanItem(res, (item) => item.replace(/\n+$/, ''));
+  };
+
+  wgit.printPretty = function (repo, res) {
     let message = this.trimItem(res);
     if (!message.length) {
       return;
@@ -30,7 +40,7 @@ module.exports = function (wgit) {
     );
   };
 
-  wgit.printSub = (repo, _sub, _message) => {
+  wgit.printSub = function (repo, _sub, _message) {
     let sub = this.trimItem(_sub);
     let message = _message ? this.trimRightItem(_message) : [];
     if (!sub.length) {

@@ -1,6 +1,6 @@
-const ava = require('ava')
-const clearRequire = require('clear-require')
-const core = require('../lib/actions')
+const ava = require('ava');
+const clearRequire = require('clear-require');
+const core = require('../lib/actions');
 
 ava('require path', function (test) {
   try {
