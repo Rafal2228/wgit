@@ -36,14 +36,15 @@
     "develop": "babel -d lib/ src/ -w",
     "compile": "babel -d lib/ src/",
     "prestart": "npm run compile",
-    "start": "node lib/wgit.js",
+    "start": "node lib/index.js",
     "test": "npm run compile && nyc ava",
     "report": "nyc report --reporter=html",
     "lint": "jshint ./src && jscs ./src",
-    "validate": "npm ls"
+    "validate": "npm ls",
+    "wgit": "node lib/index.js"
   },
   "bin": {
-    "wgit": "lib/wgit.js"
+    "wgit": "lib/index.js"
   },
   "engines": {
     "node": ">= 0.10.x"

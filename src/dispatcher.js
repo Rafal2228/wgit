@@ -1,13 +1,17 @@
 const path = require('path');
 const chalk = require('chalk');
-const loader = require('loader')('.wgit.json');
-const wgit = require('wgit');
+const loader = require('./loader')('.wgit.json');
+const wgit = require('./wgit');
 
 class Dispatcher {
 
+  register(cli, command, action) {
+    cli.command(command).action(action);
+  }
+
   actionInit() {
     let root = path.dirname(loader.root);
-    let template = path.join(root, 'templates/template.json');
+    let template = path.join(root, '../src/templates/template.json');
     let target = path.join(loader.home, '.wgit.json');
     let cmd = `cp ${template} ${target}`;
     wgit.executeAction(cmd)
@@ -66,7 +70,7 @@ class Dispatcher {
 
   actionDelegate(tag) {
     let delegate = loader.args[2];
-    return wgit.actionTag(tag, delegate, this.executeRemote);
+    return this.actionTag(tag, delegate, this.executeRemote);
   }
 
   actionCached(tag) {

@@ -3,12 +3,8 @@ const chalk = require('chalk');
 
 class WatchGit {
 
-  register(cli, command, action) {
-    cli.command(command).action(action);
-  }
-
   executeAction(command) {
-    cmd.exec(command);
+    return cmd.exec(command);
   }
 
   cleanItem(res, callback) {
