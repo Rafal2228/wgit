@@ -39,17 +39,14 @@ ava('import register', function (test) {
   test.truthy(dummy.register)
 })
 
-ava.cb('try register', function (test) {
+ava('try register', function (test) {
   clearRequire('commander')
   const cli = require('commander')
   var dummy = {}
   core(dummy)
-  test.plan(1)
   dummy.register(cli, 'keyword', function () {
-    test.pass()
-    test.end()
+    cli.parse(['node', 'file', 'keyword'])
   })
-  cli.parse(['node', 'file', 'keyword'])
 })
 
 ava('import executeAction', function (test) {
@@ -63,7 +60,7 @@ ava.cb('try executeAction', function (test) {
   var dummy = {}
   core(dummy)
   test.plan(2)
-  dummy.executeAction('echo win', function (item) {
+  dummy.executeAction('echo win').then((item) => {
     test.truthy(item)
     test.is(item.message, 'win\n')
     test.end()
@@ -147,5 +144,5 @@ ava('import printSub', function (test) {
   var dummy = {}
   test.falsy(dummy.printSub)
   core(dummy)
-  test.truthy(dummy.printSub)
+  test.truthy(dummy.printSub, 'function')
 })

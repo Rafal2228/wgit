@@ -15,11 +15,7 @@ module.exports = function (wgit) {
   };
 
   wgit.trimItem = function (res) {
-    let callback = function (item) {
-      return item.trim();
-    };
-
-    return this.cleanItem(res, callback);
+    return this.cleanItem(res, (item) => item.trim());
   };
 
   wgit.trimRightItem = function (res) {

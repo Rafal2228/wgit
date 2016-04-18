@@ -87,7 +87,7 @@ module.exports = function (wgit) {
   wgit.executeRemote = function (item, delegate) {
     let dir = path.join(item[0], item[1].repo);
     let cmd = `git -C ${dir} ${delegate}`;
-    this.executeAction(cmd, (resDelegate) => {
+    this.executeAction(cmd).then((resDelegate) => {
       this.printPretty(item[1], [resDelegate]);
     });
   };
