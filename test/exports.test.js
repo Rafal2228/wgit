@@ -1,5 +1,5 @@
 const ava = require('ava')
-const exports = require('../wgit/exports')
+const exports = require('../lib/exports')
 
 ava('import exports', function (test) {
   var dummy = {}
@@ -8,4 +8,3 @@ ava('import exports', function (test) {
   test.truthy(dummy.home)
   test.truthy(dummy.root)
 })
-

@@ -1,48 +1,34 @@
-const find = require('findup-sync')
+const find = require('findup-sync');
 
 module.exports = function (wgit) {
-  wgit
-    .scan = function () {
-    var tags = []
-    var append = function (item) {
-      tags.push(item.tag)
-    }
-    wgit.projects.map(function (item) {
-      item.repos.map(append)
-    })
-    return tags
-  }
+  wgit.scan = () => {
+    let tags = [];
+    let append = (item) => tags.push(item.tag);
 
-  wgit
-    .loadConfig = function (filename) {
-    var file = find(filename, {cwd: wgit.home})
+    this.projects.map((item) => {
+      item.repos.map(append);
+    });
+
+    return tags;
+  };
+
+  wgit.loadConfig = (filename) => {
+    let file = find(filename, { cwd: this.home });
     if (file) {
-      wgit.projects = require(file).projects
-      wgit.tags = wgit.scan()
+      this.projects = require(file).projects;
+      this.tags = this.scan();
     } else {
-      console.log('No valid root found.')
-      process.exit(1)
+      console.log('No valid root found.');
+      process.exit(1);
     }
-  }
+  };
 
-  wgit
-    ._tagged = function (items, tag) {
-    return items
-      .filter(function (item) {
-        return item.tag === tag
-      })
-      .shift()
-  }
+  wgit._tagged = (items, tag) => items.filter((item) => item.tag === tag).shift();
 
-  wgit
-    .browse = function (tag) {
-    return wgit.projects
-      .map(function (item) {
-        var repo = wgit._tagged(item.repos, tag)
-        return repo ? [item.root, repo] : null
-      })
-      .filter(function (item) {
-        return item != null
-      })
-  }
-}
+  wgit.browse = (tag) => this.projects
+    .map((item) => {
+      let repo = this._tagged(item.repos, tag);
+      return repo ? [item.root, repo] : null;
+    })
+    .filter((item) => item !== null);
+};

@@ -1,6 +1,6 @@
 const ava = require('ava')
 const clearRequire = require('clear-require')
-const core = require('../wgit/core')
+const core = require('../lib/core')
 
 ava('require cmd-exec', function (test) {
   try {
