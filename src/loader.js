@@ -1,9 +1,9 @@
 const find = require('findup-sync');
 
 class Loader {
-  constructor(filename) {
+  constructor(filename, home = process.env.HOME) {
     this.args = process.argv;
-    this.home = process.env.HOME;
+    this.home = home;
     this.root = process.mainModule.filename;
     let file = find(filename, { cwd: this.home });
     if (file) {
@@ -37,12 +37,4 @@ class Loader {
   }
 }
 
-let loader;
-
-module.exports = function (filename) {
-  if (!loader) {
-    loader = new Loader(filename);
-  }
-
-  return loader;
-};
+module.exports = (filename, home) => new Loader(filename, home);

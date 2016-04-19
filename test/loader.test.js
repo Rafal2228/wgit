@@ -1,83 +1,91 @@
 const ava = require('ava');
-const clearRequire = require('clear-require');
 const loader = require('../lib/loader');
+const find = require('findup-sync');
 
-ava.afterEach((t) => {
-  clearRequire('../lib/loader');
-})
+ava.beforeEach((test) => {
+  test.context.loader = loader('loader.test.json', __dirname);
+});
 
-ava('import exports', function (test) {
-  var dummy = loader('.wgit.json');
-  test.truthy(dummy.args)
-  test.truthy(dummy.home)
-  test.truthy(dummy.root)
-})
+ava('findup-sync finds this tests', (test) => {
+  let file = find('loader.test.json', { cwd: __dirname });
+  test.truthy(file);
+});
 
-ava('require findup-sync', function (test) {
-  try {
-    clearRequire('findup-sync')
-    require('findup-sync')
-    test.pass()
-  } catch (e) {
-    test.fail()
-  }
-})
+ava('loader constants', (test) => {
+  test.truthy(test.context.loader.args);
+  test.truthy(test.context.loader.home);
+  test.truthy(test.context.loader.root);
+});
 
-ava('import scan', function (test) {
-  var dummy = loader('.wgit.json')
-  test.truthy(dummy.scan)
-})
+ava('loader fail to find file', (test) => {
+  let tmp = console.log;
+  let tmpExit = process.exit;
+  let changed = 0;
+  let myLog = () => {
+    changed++;
+  };
+  
+  console.log = myLog;
+  process.exit = myLog;
+  test.context.loader = loader('loader.fake.test.json');
+  test.is(changed, 2);
+  console.log = tmp;
+  process.exit = tmpExit;
+});
 
-ava('try scan', function (test) {
-  var dummy = loader('.wgit.json')
-  dummy.projects = [
+ava('scan exists', (test) => {
+  test.truthy(test.context.loader.scan);
+});
+
+ava('try scan', (test) => {
+  test.context.loader.projects = [
     {
-      repos: [{tag: 'one'}, {tag: 'two'}, {tag:'three'}]
+      repos: [{ tag: 'one' }, { tag: 'two' }, { tag:'three' }],
     },
     {
-      repos: [{tag: 'four'}, {tag: 'five'}]
-    }
-  ]
-  dummy.scan()
+      repos: [{ tag: 'four' }, { tag: 'five' }],
+    },
+  ];
+  test.context.loader.scan();
 
-  test.deepEqual(dummy.tags, ['one', 'two', 'three', 'four', 'five'])
-})
+  test.deepEqual(test.context.loader.tags, ['one', 'two', 'three', 'four', 'five']);
+});
 
-ava('import _tagged', function (test) {
-  var dummy = loader('.wgit.json');
-  test.truthy(dummy._tagged)
-})
+ava('_tagged exists', (test) => {
+  test.truthy(test.context.loader._tagged)
+});
 
-ava('try _tagged', function (test) {
-  var items = [{tag: 'one'}, {tag: 'two'}, {tag: 'three'}]
-  var dummy = loader('.wgit.json')
-  var tags = dummy._tagged(items, 'two')
-  test.deepEqual(tags, {tag: 'two'})
-})
+ava('try _tagged', (test) => {
+  let items = [{ tag: 'one' }, { tag: 'two' }, { tag: 'three' }];
+  let tags = test.context.loader._tagged(items, 'two');
+  test.deepEqual(tags, { tag: 'two' });
+});
 
-ava('import browse', function (test) {
-  var dummy = loader('.wgit.json')
-  test.truthy(dummy.browse)
-})
+ava('browse exists', (test) => {
+  test.truthy(test.context.loader.browse);
+});
 
-ava('try browse', function (test) {
-  var dummy = loader('.wgit.json')
-  dummy.projects = [
+ava('try browse', (test) => {
+  test.context.loader.projects = [
     {
       root: 'a',
       repos: [
-        {tag: 'one'}, {tag: 'two'}, {tag: 'three'}
-      ]
+        { tag: 'one' },
+        { tag: 'two' },
+        { tag: 'three' },
+      ],
     },
     {
       root: 'b',
       repos: [
-        {tag: 'four'}, {tag: 'five'}
-      ]
-    }
-  ]
-  var good_repo = dummy.browse('two')
-  test.deepEqual(good_repo, [['a', {tag: 'two'}]])
-  var bad_repo = dummy.browse('9000')
-  test.deepEqual(bad_repo, [])
-})
+        { tag: 'four' },
+        { tag: 'five' },
+      ],
+    },
+  ];
+
+  let good_repo = test.context.loader.browse('two');
+  test.deepEqual(good_repo, [['a', { tag: 'two' }]]);
+  let bad_repo = test.context.loader.browse('9000');
+  test.deepEqual(bad_repo, []);
+});

@@ -1,6 +1,6 @@
 const ava = require('ava');
 const clearRequire = require('clear-require');
-const core = require('../lib/actions');
+const dispatcher = require('../lib/dispatcher');
 
 ava('require path', function (test) {
   try {
@@ -22,14 +22,14 @@ ava('require chalk', function (test) {
   }
 })
 
-ava('require string-format', function (test) {
-  try {
-    clearRequire('string-format')
-    require('string-format')
-    test.pass()
-  } catch (e) {
-    test.fail()
-  }
+ava('try register', function (test) {
+  clearRequire('commander')
+  const cli = require('commander')
+  var dummy = {}
+  core(dummy)
+  dummy.register(cli, 'keyword', function () {
+    cli.parse(['node', 'file', 'keyword'])
+  })
 })
 
 ava('import actionInit', function (test) {
