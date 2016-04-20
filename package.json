@@ -19,8 +19,7 @@
     "cmd-exec": "^0.1.0",
     "commander": "^2.9.0",
     "findup-sync": "^0.4.0",
-    "path": "^0.12.7",
-    "string-format": "^0.5.0"
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "ava": "^0.14.0",
@@ -38,8 +37,9 @@
     "prestart": "npm run compile",
     "start": "node lib/index.js",
     "test": "npm run compile && nyc ava",
+    "test-watch": "npm run compile && nyc ava --watch",
     "report": "nyc report --reporter=html",
-    "lint": "jshint ./src && jscs ./src",
+    "lint": "jshint ./src && jscs ./src && jshint ./test && jscs ./test",
     "validate": "npm ls",
     "wgit": "node lib/index.js"
   },

@@ -1,5 +1,4 @@
 const ava = require('ava');
-const clearRequire = require('clear-require');
 const wgit = require('../lib/wgit');
 const cmd = require('cmd-exec').init();
 const chalk = require('chalk');
@@ -9,13 +8,13 @@ ava('cmd exec function', (test) => {
 });
 
 ava('chalk colors', (test) => {
-  let colors = [
+  [
     'red',
     'blue',
     'green',
     'yellow',
   ].forEach((color) => {
-      test.truthy(chalk[color]);
+    test.truthy(chalk[color]);
   });
 });
 
@@ -39,9 +38,9 @@ ava('cleanItem exists', (test) => {
 
 ava('try cleanItem', function (test) {
   let items = [
-    {message: 'valid'},
-    {message: ''},
-    {message: null},
+    { message: 'valid' },
+    { message: '' },
+    { message: null },
     {},
   ];
 
@@ -55,12 +54,12 @@ ava('trimItem exists', (test) => {
 
 ava('try trimItem', (test) => {
   let items = [
-    {message: ' valid \n'},
-    {message: ' \nvalid'},
-    {message: 'valid\n '},
-    {message: 'valid'},
-    {message: ''},
-    {message: null},
+    { message: ' valid \n' },
+    { message: ' \nvalid' },
+    { message: 'valid\n ' },
+    { message: 'valid' },
+    { message: '' },
+    { message: null },
     {},
   ];
 
@@ -99,9 +98,9 @@ ava('try printPretty', (test) => {
   };
 
   console.log = myLog;
-  wgit.printPretty({ name: "test" }, [{ message: "" }]);
+  wgit.printPretty({ name: 'test' }, [{ message: '' }]);
   test.is(changed, false);
-  wgit.printPretty({ name: "test" }, [{ message: "test" }]);
+  wgit.printPretty({ name: 'test' }, [{ message: 'test' }]);
   test.is(changed, true);
   console.log = tmp;
 });
@@ -118,9 +117,9 @@ ava('try printSub', (test) => {
   };
 
   console.log = myLog;
-  wgit.printSub({ name: "test" }, [{ message: "" }], [{ message: "" }]);
+  wgit.printSub({ name: 'test' }, [{ message: '' }], [{ message: '' }]);
   test.is(changed, false);
-  wgit.printSub({ name: "test" }, [{ message: "test" }], [{ message: "" }]);
+  wgit.printSub({ name: 'test' }, [{ message: 'test' }], [{ message: '' }]);
   test.is(changed, true);
   console.log = tmp;
 });

@@ -1,7 +1,7 @@
 {
   "projects": [
     {
-      "name": "Project A",
+      "name": "Test project",
       "root": "~/Projects/project_a",
       "repos": [
         {
@@ -13,17 +13,6 @@
           "name": "Dev 2",
           "tag": "dev2",
           "repo": "branch/dev/2"
-        }
-      ]
-    },
-    {
-      "name": "Project B",
-      "root": "~/Projects/old/project_b",
-      "repos": [
-        {
-          "name": "Old master",
-          "tag": "old",
-          "repo": "/"
         }
       ]
     }

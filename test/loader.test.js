@@ -24,7 +24,7 @@ ava('loader fail to find file', (test) => {
   let myLog = () => {
     changed++;
   };
-  
+
   console.log = myLog;
   process.exit = myLog;
   test.context.loader = loader('loader.fake.test.json');
@@ -40,7 +40,7 @@ ava('scan exists', (test) => {
 ava('try scan', (test) => {
   test.context.loader.projects = [
     {
-      repos: [{ tag: 'one' }, { tag: 'two' }, { tag:'three' }],
+      repos: [{ tag: 'one' }, { tag: 'two' }, { tag: 'three' }],
     },
     {
       repos: [{ tag: 'four' }, { tag: 'five' }],
@@ -52,7 +52,7 @@ ava('try scan', (test) => {
 });
 
 ava('_tagged exists', (test) => {
-  test.truthy(test.context.loader._tagged)
+  test.truthy(test.context.loader._tagged);
 });
 
 ava('try _tagged', (test) => {
@@ -84,8 +84,8 @@ ava('try browse', (test) => {
     },
   ];
 
-  let good_repo = test.context.loader.browse('two');
-  test.deepEqual(good_repo, [['a', { tag: 'two' }]]);
-  let bad_repo = test.context.loader.browse('9000');
-  test.deepEqual(bad_repo, []);
+  let goodRepo = test.context.loader.browse('two');
+  test.deepEqual(goodRepo, [['a', { tag: 'two' }]]);
+  let badRepo = test.context.loader.browse('9000');
+  test.deepEqual(badRepo, []);
 });

@@ -1,103 +1,61 @@
 const ava = require('ava');
-const clearRequire = require('clear-require');
+const path = require('path');
 const dispatcher = require('../lib/dispatcher');
 
-ava('require path', function (test) {
-  try {
-    clearRequire('path')
-    require('path')
-    test.pass()
-  } catch (e) {
-    test.fail()
-  }
-})
+ava('path try join', (test) => {
+  let result = path.join('test/no', '../result');
+  test.is(result, 'test/result');
+});
 
-ava('require chalk', function (test) {
-  try {
-    clearRequire('chalk')
-    require('chalk')
-    test.pass()
-  } catch (e) {
-    test.fail()
-  }
-})
+ava('register exists', (test) => {
+  test.truthy(dispatcher.register);
+});
 
-ava('try register', function (test) {
-  clearRequire('commander')
-  const cli = require('commander')
-  var dummy = {}
-  core(dummy)
-  dummy.register(cli, 'keyword', function () {
-    cli.parse(['node', 'file', 'keyword'])
-  })
-})
+ava('try register', (test) => {
+  let cli = require('commander');
 
-ava('import actionInit', function (test) {
-  var dummy = {}
-  test.falsy(dummy.actionInit)
-  core(dummy)
-  test.truthy(dummy.actionInit)
-})
+  dispatcher.register(cli, 'keyword', () => {
+    let res = cli.parse(['node', 'file', 'keyword']);
+    test.truthy(res);
+  });
+});
 
-ava('import actionList', function (test) {
-  var dummy = {}
-  test.falsy(dummy.actionInit)
-  core(dummy)
-  test.truthy(dummy.actionInit)
-})
+ava('actionInit exists', (test) => {
+  test.truthy(dispatcher.actionInit);
+});
 
-ava('import executeStatus', function (test) {
-  var dummy = {}
-  test.falsy(dummy.actionInit)
-  core(dummy)
-  test.truthy(dummy.actionInit)
-})
+ava('actionList exists', (test) => {
+  test.truthy(dispatcher.actionList);
+});
 
-ava('import executeSub', function (test) {
-  var dummy = {}
-  test.falsy(dummy.actionInit)
-  core(dummy)
-  test.truthy(dummy.actionInit)
-})
+ava('executeStatus exists', (test) => {
+  test.truthy(dispatcher.actionInit);
+});
 
-ava('import actionDelegate', function (test) {
-  var dummy = {}
-  test.falsy(dummy.actionInit)
-  core(dummy)
-  test.truthy(dummy.actionInit)
-})
+ava('executeSub exists', (test) => {
+  test.truthy(dispatcher.actionInit);
+});
 
-ava('import actionCached', function (test) {
-  var dummy = {}
-  test.falsy(dummy.actionInit)
-  core(dummy)
-  test.truthy(dummy.actionInit)
-})
+ava('actionDelegate exists', (test) => {
+  test.truthy(dispatcher.actionInit);
+});
 
-ava('import actionDunk', function (test) {
-  var dummy = {}
-  test.falsy(dummy.actionInit)
-  core(dummy)
-  test.truthy(dummy.actionInit)
-})
+ava('actionCached exists', (test) => {
+  test.truthy(dispatcher.actionInit);
+});
 
-ava('import actionTag', function (test) {
-  var dummy = {}
-  test.falsy(dummy.actionInit)
-  core(dummy)
-  test.truthy(dummy.actionInit)
-})
+ava('actionDunk exists', (test) => {
+  test.truthy(dispatcher.actionInit);
+});
 
-ava('import executeRemote', function (test) {
-  var dummy = {}
-  test.falsy(dummy.actionInit)
-  core(dummy)
-  test.truthy(dummy.actionInit)
-})
+ava('actionTag exists', (test) => {
+  test.truthy(dispatcher.actionInit);
+});
 
-ava('import executeDunk', function (test) {
-  var dummy = {}
-  test.falsy(dummy.actionInit)
-  core(dummy)
-  test.truthy(dummy.actionInit)
-})
+ava('executeRemote exists', (test) => {
+  test.truthy(dispatcher.actionInit);
+});
+
+ava('executeDunk exists', (test) => {
+  test.truthy(dispatcher.actionInit);
+});
