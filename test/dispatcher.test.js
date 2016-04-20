@@ -1,5 +1,6 @@
 const ava = require('ava');
 const path = require('path');
+require('../lib/loader')('loader.test.json', __dirname);
 const dispatcher = require('../lib/dispatcher');
 
 ava('path try join', (test) => {

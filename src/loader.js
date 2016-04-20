@@ -37,4 +37,12 @@ class Loader {
   }
 }
 
-module.exports = (filename, home) => new Loader(filename, home);
+let loader;
+
+module.exports = (filename, home) => {
+  if (!loader) {
+    loader = new Loader(filename, home);
+  }
+
+  return loader;
+};

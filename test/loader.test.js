@@ -1,5 +1,6 @@
 const ava = require('ava');
-const loader = require('../lib/loader');
+const clearRequire = require('clear-require');
+let loader = require('../lib/loader');
 const find = require('findup-sync');
 
 ava.beforeEach((test) => {
@@ -27,7 +28,11 @@ ava('loader fail to find file', (test) => {
 
   console.log = myLog;
   process.exit = myLog;
+  let tmpLoader = loader;
+  clearRequire('../lib/loader');
+  loader = require('../lib/loader');
   test.context.loader = loader('loader.fake.test.json');
+  loader = tmpLoader;
   test.is(changed, 2);
   console.log = tmp;
   process.exit = tmpExit;
