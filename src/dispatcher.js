@@ -41,7 +41,7 @@ class Dispatcher {
     .then((resBranch) => {
       wgit.executeAction(args.diff)
       .then((resDiff) => {
-        callback([resBranch, resDiff], repo, dir);
+        callback.call(this, [resBranch, resDiff], repo, dir);
       });
     })
     .catch((msg) => {
