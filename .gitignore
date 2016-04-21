@@ -35,3 +35,6 @@ node_modules
 .wgit.json
 .nyc_output
 coverage
+
+# Ignore build
+lib/

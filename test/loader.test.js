@@ -1,89 +1,96 @@
-const ava = require('ava')
-const clearRequire = require('clear-require')
-const loader = require('../wgit/loader')
+const ava = require('ava');
+const clearRequire = require('clear-require');
+let loader = require('../lib/loader');
+const find = require('findup-sync');
 
-ava('require findup-sync', function (test) {
-  try {
-    clearRequire('findup-sync')
-    require('findup-sync')
-    test.pass()
-  } catch (e) {
-    test.fail()
-  }
-})
+ava.beforeEach((test) => {
+  test.context.loader = loader('loader.test.json', __dirname);
+});
 
-ava('import scan', function (test) {
-  var dummy = {}
-  test.falsy(dummy.scan)
-  loader(dummy)
-  test.truthy(dummy.scan)
-})
+ava('findup-sync finds this tests', (test) => {
+  let file = find('loader.test.json', { cwd: __dirname });
+  test.truthy(file);
+});
 
-ava('try scan', function (test) {
-  var dummy = {
-    projects: [
-      {
-        repos: [{tag: 'one'}, {tag: 'two'}, {tag:'three'}]
-      },
-      {
-        repos: [{tag: 'four'}, {tag: 'five'}]
-      }
-    ]
-  }
-  loader(dummy)
-  var tags = dummy.scan()
-  test.deepEqual(tags, ['one', 'two', 'three', 'four', 'five'])
-})
+ava('loader constants', (test) => {
+  test.truthy(test.context.loader.args);
+  test.truthy(test.context.loader.home);
+  test.truthy(test.context.loader.root);
+});
 
-ava('import loadConfig', function (test) {
-  var dummy = {}
-  test.falsy(dummy.loadConfig)
-  loader(dummy)
-  test.truthy(dummy.loadConfig)
-})
+ava('loader fail to find file', (test) => {
+  let tmp = console.log;
+  let tmpExit = process.exit;
+  let changed = 0;
+  let myLog = () => {
+    changed++;
+  };
 
-ava('import _tagged', function (test) {
-  var dummy = {}
-  test.falsy(dummy._tagged)
-  loader(dummy)
-  test.truthy(dummy._tagged)
-})
+  console.log = myLog;
+  process.exit = myLog;
+  let tmpLoader = loader;
+  clearRequire('../lib/loader');
+  loader = require('../lib/loader');
+  test.context.loader = loader('loader.fake.test.json');
+  loader = tmpLoader;
+  test.is(changed, 2);
+  console.log = tmp;
+  process.exit = tmpExit;
+});
 
-ava('try _tagged', function (test) {
-  var items = [{tag: 'one'}, {tag: 'two'}, {tag: 'three'}]
-  var dummy = {}
-  loader(dummy)
-  var tags = dummy._tagged(items, 'two')
-  test.deepEqual(tags, {tag: 'two'})
-})
+ava('scan exists', (test) => {
+  test.truthy(test.context.loader.scan);
+});
 
-ava('import browse', function (test) {
-  var dummy = {}
-  test.falsy(dummy.browse)
-  loader(dummy)
-  test.truthy(dummy.browse)
-})
+ava('try scan', (test) => {
+  test.context.loader.projects = [
+    {
+      repos: [{ tag: 'one' }, { tag: 'two' }, { tag: 'three' }],
+    },
+    {
+      repos: [{ tag: 'four' }, { tag: 'five' }],
+    },
+  ];
+  test.context.loader.scan();
 
-ava('try browse', function (test) {
-  var dummy = {
-    projects: [
-      {
-        root: 'a',
-        repos: [
-          {tag: 'one'}, {tag: 'two'}, {tag: 'three'}
-        ]
-      },
-      {
-        root: 'b',
-        repos: [
-          {tag: 'four'}, {tag: 'five'}
-        ]
-      }
-    ]
-  }
-  loader(dummy)
-  var good_repo = dummy.browse('two')
-  test.deepEqual(good_repo, [['a', {tag: 'two'}]])
-  var bad_repo = dummy.browse('9000')
-  test.deepEqual(bad_repo, [])
-})
+  test.deepEqual(test.context.loader.tags, ['one', 'two', 'three', 'four', 'five']);
+});
+
+ava('_tagged exists', (test) => {
+  test.truthy(test.context.loader._tagged);
+});
+
+ava('try _tagged', (test) => {
+  let items = [{ tag: 'one' }, { tag: 'two' }, { tag: 'three' }];
+  let tags = test.context.loader._tagged(items, 'two');
+  test.deepEqual(tags, { tag: 'two' });
+});
+
+ava('browse exists', (test) => {
+  test.truthy(test.context.loader.browse);
+});
+
+ava('try browse', (test) => {
+  test.context.loader.projects = [
+    {
+      root: 'a',
+      repos: [
+        { tag: 'one' },
+        { tag: 'two' },
+        { tag: 'three' },
+      ],
+    },
+    {
+      root: 'b',
+      repos: [
+        { tag: 'four' },
+        { tag: 'five' },
+      ],
+    },
+  ];
+
+  let goodRepo = test.context.loader.browse('two');
+  test.deepEqual(goodRepo, [['a', { tag: 'two' }]]);
+  let badRepo = test.context.loader.browse('9000');
+  test.deepEqual(badRepo, []);
+});
