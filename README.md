@@ -7,16 +7,16 @@
 
 Simple cli for managing multiple projects in git
 
-## Install globally
+## Install
 
 ```bash
-> npm install --global
+> npm install
 ```
 
-## Install for development
+## Link
 
 ```bash
-> npm install --dev
+> npm link
 ```
 
 ## Usage
