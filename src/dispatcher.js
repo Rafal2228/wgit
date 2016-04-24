@@ -1,10 +1,11 @@
-const path = require('path');
-const chalk = require('chalk');
-const loader = require('./loader')('.wgit.json');
-const wgit = require('./wgit');
+import path from 'path';
+import chalk from 'chalk';
+
+import { wgit } from './wgit';
+import { singleton } from './loader';
+let loader = singleton('.wgit.json');
 
 class Dispatcher {
-
   register(cli, command, action) {
     cli.command(command).action(action);
   }
@@ -107,4 +108,4 @@ class Dispatcher {
   }
 }
 
-module.exports = new Dispatcher();
+export const dispatcher = new Dispatcher();

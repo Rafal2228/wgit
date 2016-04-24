@@ -1,7 +1,7 @@
-const ava = require('ava');
-const path = require('path');
-require('../lib/loader')('loader.test.json', __dirname);
-const dispatcher = require('../lib/dispatcher');
+import ava from 'ava';
+import path from 'path';
+import cli from 'commander';
+import { dispatcher } from '../lib/dispatcher';
 
 ava('path try join', (test) => {
   let result = path.join('test/no', '../result');
@@ -13,8 +13,6 @@ ava('register exists', (test) => {
 });
 
 ava('try register', (test) => {
-  let cli = require('commander');
-
   dispatcher.register(cli, 'keyword', () => {
     let res = cli.parse(['node', 'file', 'keyword']);
     test.truthy(res);
