@@ -28,33 +28,33 @@ ava('actionList exists', (test) => {
 });
 
 ava('executeStatus exists', (test) => {
-  test.truthy(dispatcher.actionInit);
+  test.truthy(dispatcher.executeStatus);
 });
 
 ava('executeSub exists', (test) => {
-  test.truthy(dispatcher.actionInit);
+  test.truthy(dispatcher.executeSub);
 });
 
 ava('actionDelegate exists', (test) => {
-  test.truthy(dispatcher.actionInit);
+  test.truthy(dispatcher.actionDelegate);
 });
 
 ava('actionCached exists', (test) => {
-  test.truthy(dispatcher.actionInit);
+  test.truthy(dispatcher.actionCached);
 });
 
 ava('actionDunk exists', (test) => {
-  test.truthy(dispatcher.actionInit);
+  test.truthy(dispatcher.actionDunk);
 });
 
 ava('actionTag exists', (test) => {
-  test.truthy(dispatcher.actionInit);
+  test.truthy(dispatcher.actionTag);
 });
 
 ava('executeRemote exists', (test) => {
-  test.truthy(dispatcher.actionInit);
+  test.truthy(dispatcher.executeRemote);
 });
 
 ava('executeDunk exists', (test) => {
-  test.truthy(dispatcher.actionInit);
+  test.truthy(dispatcher.executeDunk);
 });
