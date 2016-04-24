@@ -38,6 +38,7 @@
     "prestart": "npm run compile",
     "start": "node lib/index.js",
     "test": "npm run compile && nyc ava",
+    "test-debug": "npm run compile && nyc ava --serial --tap",
     "test-watch": "npm run compile && nyc ava --watch",
     "report": "nyc report --reporter=html",
     "lint": "jshint ./src && jscs ./src && jshint ./test && jscs ./test",
