@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-
-const cli = require('commander');
-
-const loader = require('./loader')('.wgit.json');
-const dispatcher = require('./dispatcher');
+import cli from 'commander';
+import Loader from './loader';
+import Dispatcher from './dispatcher';
+const loader = new Loader('.wgit.json');
+const dispatcher = new Dispatcher(loader);
 
 dispatcher.register(cli, 'init', dispatcher.actionInit.bind(dispatcher));
 dispatcher.register(cli, 'list', dispatcher.actionList.bind(dispatcher));

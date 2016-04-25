@@ -1,22 +1,6 @@
-const ava = require('ava');
-const clearRequire = require('clear-require');
-let loader = require('../lib/loader');
-const find = require('findup-sync');
-
-ava.beforeEach((test) => {
-  test.context.loader = loader('loader.test.json', __dirname);
-});
-
-ava('findup-sync finds this tests', (test) => {
-  let file = find('loader.test.json', { cwd: __dirname });
-  test.truthy(file);
-});
-
-ava('loader constants', (test) => {
-  test.truthy(test.context.loader.args);
-  test.truthy(test.context.loader.home);
-  test.truthy(test.context.loader.root);
-});
+import ava from 'ava';
+import find from 'findup-sync';
+import Loader from '../lib/loader';
 
 ava('loader fail to find file', (test) => {
   let tmp = console.log;
@@ -28,14 +12,25 @@ ava('loader fail to find file', (test) => {
 
   console.log = myLog;
   process.exit = myLog;
-  let tmpLoader = loader;
-  clearRequire('../lib/loader');
-  loader = require('../lib/loader');
-  test.context.loader = loader('loader.fake.test.json');
-  loader = tmpLoader;
+  test.context.loader = new Loader('loader.fake.test.json', __dirname);
   test.is(changed, 2);
   console.log = tmp;
   process.exit = tmpExit;
+});
+
+ava.beforeEach((test) => {
+  test.context.loader = new Loader('loader.test.json', __dirname);
+});
+
+ava('findup-sync finds this test', (test) => {
+  let file = find('loader.test.json', { cwd: __dirname });
+  test.truthy(file);
+});
+
+ava('loader constants', (test) => {
+  test.truthy(test.context.loader.args);
+  test.truthy(test.context.loader.home);
+  test.truthy(test.context.loader.root);
 });
 
 ava('scan exists', (test) => {
@@ -45,15 +40,21 @@ ava('scan exists', (test) => {
 ava('try scan', (test) => {
   test.context.loader.projects = [
     {
-      repos: [{ tag: 'one' }, { tag: 'two' }, { tag: 'three' }],
+      repos: [
+        { tag: 'one' }, { tag: 'two' }, { tag: 'three' },
+      ],
     },
     {
-      repos: [{ tag: 'four' }, { tag: 'five' }],
+      repos: [
+        { tag: 'four' }, { tag: 'five' },
+      ],
     },
   ];
   test.context.loader.scan();
 
-  test.deepEqual(test.context.loader.tags, ['one', 'two', 'three', 'four', 'five']);
+  test.deepEqual(test.context.loader.tags,
+    ['one', 'two', 'three', 'four', 'five']
+  );
 });
 
 ava('_tagged exists', (test) => {
@@ -61,7 +62,9 @@ ava('_tagged exists', (test) => {
 });
 
 ava('try _tagged', (test) => {
-  let items = [{ tag: 'one' }, { tag: 'two' }, { tag: 'three' }];
+  let items = [
+    { tag: 'one' }, { tag: 'two' }, { tag: 'three' },
+  ];
   let tags = test.context.loader._tagged(items, 'two');
   test.deepEqual(tags, { tag: 'two' });
 });

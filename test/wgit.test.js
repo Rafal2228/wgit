@@ -1,10 +1,10 @@
-const ava = require('ava');
-const wgit = require('../lib/wgit');
-const cmd = require('cmd-exec').init();
-const chalk = require('chalk');
+import ava from 'ava';
+import { wgit } from '../lib/wgit';
+import cmd from 'cmd-exec';
+import chalk from 'chalk';
 
 ava('cmd exec function', (test) => {
-  test.truthy(cmd.exec);
+  test.truthy(cmd.init().exec);
 });
 
 ava('chalk colors', (test) => {
@@ -93,11 +93,10 @@ ava('printPretty exists', (test) => {
 ava('try printPretty', (test) => {
   let tmp = console.log;
   let changed = false;
-  let myLog = () => {
+  console.log = () => {
     changed = true;
   };
 
-  console.log = myLog;
   wgit.printPretty({ name: 'test' }, [{ message: '' }]);
   test.is(changed, false);
   wgit.printPretty({ name: 'test' }, [{ message: 'test' }]);
@@ -112,11 +111,10 @@ ava('printSub exists', (test) => {
 ava('try printSub', (test) => {
   let tmp = console.log;
   let changed = false;
-  let myLog = () => {
+  console.log = () => {
     changed = true;
   };
 
-  console.log = myLog;
   wgit.printSub({ name: 'test' }, [{ message: '' }], [{ message: '' }]);
   test.is(changed, false);
   wgit.printSub({ name: 'test' }, [{ message: 'test' }], [{ message: '' }]);

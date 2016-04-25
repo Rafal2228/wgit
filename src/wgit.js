@@ -1,10 +1,9 @@
-const cmd = require('cmd-exec').init();
-const chalk = require('chalk');
+import cmd from 'cmd-exec';
+import chalk from 'chalk';
 
 class WatchGit {
-
   executeAction(command) {
-    return cmd.exec(command);
+    return cmd.init().exec(command);
   }
 
   cleanItem(res, callback) {
@@ -52,4 +51,4 @@ class WatchGit {
   }
 }
 
-module.exports = new WatchGit();
+export const wgit = new WatchGit();
