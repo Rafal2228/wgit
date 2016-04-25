@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import cli from 'commander';
-
-import { dispatcher } from './dispatcher';
-import { singleton } from './loader';
-let loader = singleton('.wgit.json');
+import Loader from './loader';
+import Dispatcher from './dispatcher';
+const loader = new Loader('.wgit.json');
+const dispatcher = new Dispatcher(loader);
 
 dispatcher.register(cli, 'init', dispatcher.actionInit.bind(dispatcher));
 dispatcher.register(cli, 'list', dispatcher.actionList.bind(dispatcher));

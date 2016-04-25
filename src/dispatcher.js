@@ -1,19 +1,21 @@
 import path from 'path';
 import chalk from 'chalk';
-
 import { wgit } from './wgit';
-import { singleton } from './loader';
-let loader = singleton('.wgit.json');
 
 class Dispatcher {
+
+  constructor(loader) {
+    this.loader = loader;
+  }
+
   register(cli, command, action) {
     cli.command(command).action(action);
   }
 
   actionInit() {
-    let root = path.dirname(loader.root);
+    let root = path.dirname(this.loader.root);
     let template = path.join(root, '../src/templates/template.json');
-    let target = path.join(loader.home, '.wgit.json');
+    let target = path.join(this.loader.home, '.wgit.json');
     let cmd = `cp ${template} ${target}`;
     wgit.executeAction(cmd)
     .then(() => {
@@ -25,7 +27,7 @@ class Dispatcher {
   }
 
   actionList() {
-    loader.projects.map((project) => {
+    this.loader.projects.map((project) => {
       project.repos.map((repo) => {
         let dir = path.join(project.root, repo.repo);
         this.executeStatus(this.executeSub, repo, dir);
@@ -70,7 +72,7 @@ class Dispatcher {
   }
 
   actionDelegate(tag) {
-    let delegate = loader.args[2];
+    let delegate = this.loader.args[2];
     return this.actionTag(tag, delegate, this.executeRemote);
   }
 
@@ -83,9 +85,9 @@ class Dispatcher {
   }
 
   actionTag(tag, delegate, remote) {
-    let index = loader.tags.indexOf(tag);
+    let index = this.loader.tags.indexOf(tag);
     if (index !== -1) {
-      let tagged = loader.browse(tag);
+      let tagged = this.loader.browse(tag);
       tagged.map((item) => remote(item, delegate));
     } else {
       console.log(chalk.red('Incorrect repo alias.'));
@@ -102,10 +104,10 @@ class Dispatcher {
 
   executeDunk(item) {
     let dir = path.join(item[0], item[1].repo);
-    dir = dir.replace('~', loader.home);
+    dir = dir.replace('~', this.loader.home);
     process.chdir(dir);
     console.log(process.cwd());
   }
 }
 
-export const dispatcher = new Dispatcher();
+export default Dispatcher;

@@ -37,16 +37,4 @@ class Loader {
   }
 }
 
-let loader;
-
-export function instantiate(filename, home) {
-  return new Loader(filename, home);
-}
-
-export function singleton(filename, home) {
-  if (!loader) {
-    loader = instantiate(filename, home);
-  }
-
-  return loader;
-}
+export default Loader;

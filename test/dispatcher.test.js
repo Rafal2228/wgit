@@ -1,7 +1,10 @@
 import ava from 'ava';
 import path from 'path';
 import cli from 'commander';
-import { dispatcher } from '../lib/dispatcher';
+import Loader from '../lib/loader';
+import Dispatcher from '../lib/dispatcher';
+const loader = new Loader('loader.test.json', __dirname);
+const dispatcher = new Dispatcher(loader);
 
 ava('path try join', (test) => {
   let result = path.join('test/no', '../result');

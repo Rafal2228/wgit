@@ -1,21 +1,6 @@
 import ava from 'ava';
 import find from 'findup-sync';
-import { instantiate } from '../lib/loader';
-
-ava.beforeEach((test) => {
-  test.context.loader = instantiate('loader.test.json', __dirname);
-});
-
-ava('findup-sync finds this test', (test) => {
-  let file = find('loader.test.json', { cwd: __dirname });
-  test.truthy(file);
-});
-
-ava('loader constants', (test) => {
-  test.truthy(test.context.loader.args);
-  test.truthy(test.context.loader.home);
-  test.truthy(test.context.loader.root);
-});
+import Loader from '../lib/loader';
 
 ava('loader fail to find file', (test) => {
   let tmp = console.log;
@@ -27,10 +12,25 @@ ava('loader fail to find file', (test) => {
 
   console.log = myLog;
   process.exit = myLog;
-  test.context.loader = instantiate('loader.fake.test.json', __dirname);
+  test.context.loader = new Loader('loader.fake.test.json', __dirname);
   test.is(changed, 2);
   console.log = tmp;
   process.exit = tmpExit;
+});
+
+ava.beforeEach((test) => {
+  test.context.loader = new Loader('loader.test.json', __dirname);
+});
+
+ava('findup-sync finds this test', (test) => {
+  let file = find('loader.test.json', { cwd: __dirname });
+  test.truthy(file);
+});
+
+ava('loader constants', (test) => {
+  test.truthy(test.context.loader.args);
+  test.truthy(test.context.loader.home);
+  test.truthy(test.context.loader.root);
 });
 
 ava('scan exists', (test) => {
