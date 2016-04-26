@@ -1,21 +1,18 @@
-import path from 'path';
-import chalk from 'chalk';
-import { wgit } from './wgit';
+const path = require('path');
+const chalk = require('chalk');
+const loader = require('./loader')('.wgit.json');
+const wgit = require('./wgit');
 
 class Dispatcher {
-
-  constructor(loader) {
-    this.loader = loader;
-  }
 
   register(cli, command, action) {
     cli.command(command).action(action);
   }
 
   actionInit() {
-    let root = path.dirname(this.loader.root);
+    let root = path.dirname(loader.root);
     let template = path.join(root, '../src/templates/template.json');
-    let target = path.join(this.loader.home, '.wgit.json');
+    let target = path.join(loader.home, '.wgit.json');
     let cmd = `cp ${template} ${target}`;
     wgit.executeAction(cmd)
     .then(() => {
@@ -27,7 +24,7 @@ class Dispatcher {
   }
 
   actionList() {
-    this.loader.projects.map((project) => {
+    loader.projects.map((project) => {
       project.repos.map((repo) => {
         let dir = path.join(project.root, repo.repo);
         this.executeStatus(this.executeSub, repo, dir);
@@ -72,7 +69,7 @@ class Dispatcher {
   }
 
   actionDelegate(tag) {
-    let delegate = this.loader.args[2];
+    let delegate = loader.args[2];
     return this.actionTag(tag, delegate, this.executeRemote);
   }
 
@@ -85,9 +82,9 @@ class Dispatcher {
   }
 
   actionTag(tag, delegate, remote) {
-    let index = this.loader.tags.indexOf(tag);
+    let index = loader.tags.indexOf(tag);
     if (index !== -1) {
-      let tagged = this.loader.browse(tag);
+      let tagged = loader.browse(tag);
       tagged.map((item) => remote(item, delegate));
     } else {
       console.log(chalk.red('Incorrect repo alias.'));
@@ -104,10 +101,10 @@ class Dispatcher {
 
   executeDunk(item) {
     let dir = path.join(item[0], item[1].repo);
-    dir = dir.replace('~', this.loader.home);
+    dir = dir.replace('~', loader.home);
     process.chdir(dir);
     console.log(process.cwd());
   }
 }
 
-export default Dispatcher;
+module.exports = new Dispatcher();

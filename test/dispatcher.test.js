@@ -1,10 +1,7 @@
-import ava from 'ava';
-import path from 'path';
-import cli from 'commander';
-import Loader from '../lib/loader';
-import Dispatcher from '../lib/dispatcher';
-const loader = new Loader('loader.test.json', __dirname);
-const dispatcher = new Dispatcher(loader);
+const ava = require('ava');
+const path = require('path');
+require('../lib/loader')('loader.test.json', __dirname);
+const dispatcher = require('../lib/dispatcher');
 
 ava('path try join', (test) => {
   let result = path.join('test/no', '../result');
@@ -16,6 +13,8 @@ ava('register exists', (test) => {
 });
 
 ava('try register', (test) => {
+  let cli = require('commander');
+
   dispatcher.register(cli, 'keyword', () => {
     let res = cli.parse(['node', 'file', 'keyword']);
     test.truthy(res);
@@ -31,33 +30,33 @@ ava('actionList exists', (test) => {
 });
 
 ava('executeStatus exists', (test) => {
-  test.truthy(dispatcher.executeStatus);
+  test.truthy(dispatcher.actionInit);
 });
 
 ava('executeSub exists', (test) => {
-  test.truthy(dispatcher.executeSub);
+  test.truthy(dispatcher.actionInit);
 });
 
 ava('actionDelegate exists', (test) => {
-  test.truthy(dispatcher.actionDelegate);
+  test.truthy(dispatcher.actionInit);
 });
 
 ava('actionCached exists', (test) => {
-  test.truthy(dispatcher.actionCached);
+  test.truthy(dispatcher.actionInit);
 });
 
 ava('actionDunk exists', (test) => {
-  test.truthy(dispatcher.actionDunk);
+  test.truthy(dispatcher.actionInit);
 });
 
 ava('actionTag exists', (test) => {
-  test.truthy(dispatcher.actionTag);
+  test.truthy(dispatcher.actionInit);
 });
 
 ava('executeRemote exists', (test) => {
-  test.truthy(dispatcher.executeRemote);
+  test.truthy(dispatcher.actionInit);
 });
 
 ava('executeDunk exists', (test) => {
-  test.truthy(dispatcher.executeDunk);
+  test.truthy(dispatcher.actionInit);
 });
