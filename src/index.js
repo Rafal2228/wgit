@@ -17,7 +17,7 @@ dispatcher.register(cli, 'fetch <tag>', dispatcher.actionDelegate.bind(dispatche
 dispatcher.register(cli, 'pull <tag>', dispatcher.actionDelegate.bind(dispatcher));
 dispatcher.register(cli, 'dunk <tag>', dispatcher.actionDunk.bind(dispatcher));
 
-cli.version('0.1.4', '-v, --version');
+cli.version('0.1.5', '-v, --version');
 cli.parse(loader.args);
 
 if (!loader.args.slice(2).length) {

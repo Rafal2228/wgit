@@ -1,6 +1,6 @@
 {
   "name": "wgit",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "preferGlobal": true,
   "description": "Just a cli for git",
   "main": "lib/index.js",
