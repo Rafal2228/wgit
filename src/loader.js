@@ -1,4 +1,4 @@
-const find = require('findup-sync');
+import find from 'findup-sync';
 
 class Loader {
   constructor(filename, home = process.env.HOME) {
@@ -37,12 +37,4 @@ class Loader {
   }
 }
 
-let loader;
-
-module.exports = (filename, home) => {
-  if (!loader) {
-    loader = new Loader(filename, home);
-  }
-
-  return loader;
-};
+export default Loader;
