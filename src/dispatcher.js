@@ -73,15 +73,15 @@ class Dispatcher {
 
   actionDelegate(tag) {
     let delegate = this.loader.args[2];
-    return this.actionTag(tag, delegate, this.executeRemote);
+    return this.actionTag(tag, delegate, this.executeRemote.bind(this));
   }
 
   actionCached(tag) {
-    this.actionTag(tag, 'diff --cached', this.executeRemote);
+    this.actionTag(tag, 'diff --cached', this.executeRemote.bind(this));
   }
 
   actionDunk(tag) {
-    this.actionTag(tag, null, this.executeDunk);
+    this.actionTag(tag, null, this.executeDunk.bind(this));
   }
 
   actionTag(tag, delegate, remote) {
