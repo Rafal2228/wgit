@@ -1,18 +1,21 @@
-const path = require('path');
-const chalk = require('chalk');
-const loader = require('./loader')('.wgit.json');
-const wgit = require('./wgit');
+import path from 'path';
+import chalk from 'chalk';
+import { wgit } from './wgit';
 
 class Dispatcher {
+
+  constructor(loader) {
+    this.loader = loader;
+  }
 
   register(cli, command, action) {
     cli.command(command).action(action);
   }
 
   actionInit() {
-    let root = path.dirname(loader.root);
+    let root = path.dirname(this.loader.root);
     let template = path.join(root, '../src/templates/template.json');
-    let target = path.join(loader.home, '.wgit.json');
+    let target = path.join(this.loader.home, '.wgit.json');
     let cmd = `cp ${template} ${target}`;
     wgit.executeAction(cmd)
     .then(() => {
@@ -24,7 +27,7 @@ class Dispatcher {
   }
 
   actionList() {
-    loader.projects.map((project) => {
+    this.loader.projects.map((project) => {
       project.repos.map((repo) => {
         let dir = path.join(project.root, repo.repo);
         this.executeStatus(this.executeSub, repo, dir);
@@ -69,22 +72,22 @@ class Dispatcher {
   }
 
   actionDelegate(tag) {
-    let delegate = loader.args[2];
-    return this.actionTag(tag, delegate, this.executeRemote);
+    let delegate = this.loader.args[2];
+    return this.actionTag(tag, delegate, this.executeRemote.bind(this));
   }
 
   actionCached(tag) {
-    this.actionTag(tag, 'diff --cached', this.executeRemote);
+    this.actionTag(tag, 'diff --cached', this.executeRemote.bind(this));
   }
 
   actionDunk(tag) {
-    this.actionTag(tag, null, this.executeDunk);
+    this.actionTag(tag, null, this.executeDunk.bind(this));
   }
 
   actionTag(tag, delegate, remote) {
-    let index = loader.tags.indexOf(tag);
+    let index = this.loader.tags.indexOf(tag);
     if (index !== -1) {
-      let tagged = loader.browse(tag);
+      let tagged = this.loader.browse(tag);
       tagged.map((item) => remote(item, delegate));
     } else {
       console.log(chalk.red('Incorrect repo alias.'));
@@ -101,10 +104,10 @@ class Dispatcher {
 
   executeDunk(item) {
     let dir = path.join(item[0], item[1].repo);
-    dir = dir.replace('~', loader.home);
+    dir = dir.replace('~', this.loader.home);
     process.chdir(dir);
     console.log(process.cwd());
   }
 }
 
-module.exports = new Dispatcher();
+export default Dispatcher;
