@@ -33,12 +33,9 @@ class Crawler {
         } else {
           submodules.push(dir);
         }
-
-        counter += files.length - 1;
-      } else {
-        counter += files.length;
       }
 
+      counter += files.length;
       files.forEach((item) => {
         if (skipFolders.indexOf(item) != -1) {
           counter--;
