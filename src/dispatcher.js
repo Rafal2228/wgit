@@ -1,6 +1,7 @@
 import path from 'path';
 import chalk from 'chalk';
 import { wgit } from './wgit';
+import Crawler from './crawler';
 
 class Dispatcher {
 
@@ -107,6 +108,19 @@ class Dispatcher {
     dir = dir.replace('~', this.loader.home);
     process.chdir(dir);
     console.log(process.cwd());
+  }
+
+  actionCrawl(dir) {
+    Crawler.crawl(dir)
+    .then((data) => {
+      console.log('Repos');
+      console.log(data.repos);
+      console.log('Submodules');
+      console.log(data.submodules);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   }
 }
 
