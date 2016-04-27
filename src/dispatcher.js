@@ -119,7 +119,7 @@ class Dispatcher {
       console.log(data.submodules);
     })
     .catch((err) => {
-      console.log(err);
+      console.log('Error ' + err);
     });
   }
 }

@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import Promise from 'bluebird';
+import bluebird from 'bluebird';
+import 'babel-polyfill';
+const asyncReadDir = bluebird.promisify(fs.readdir);
+const asyncLstat = bluebird.promisify(fs.lstat);
 
-let repos = [];
-let submodules = [];
-let counter =  0;
 const skipFolders = [
   '.git',
   'node_modules',
@@ -14,15 +14,14 @@ const skipFolders = [
 class Crawler {
 
   static crawl(dir) {
-    return new Promise(function (resolve, reject) {
-      Crawler.readDir(resolve, reject, dir);
-    });
-  }
+    let repos = [];
+    let submodules = [];
 
-  static readDir(resolve, reject, dir, submodule = false) {
-    fs.readdir(dir, function (err, files) {
-      // if (err) reject(err);
-      if (!files) {
+    let innerCrawl = async (dir, submodule = false) => {
+      let files = [];
+      try {
+        files = await asyncReadDir(dir);
+      } catch (err) {
         return;
       }
 
@@ -35,28 +34,25 @@ class Crawler {
         }
       }
 
-      counter += files.length;
-      files.forEach((item) => {
+      for (let item of files) {
         if (skipFolders.indexOf(item) != -1) {
-          counter--;
-          return;
+          continue;
         }
 
-        const fullPath = path.join(dir, item);
-        fs.lstat(fullPath, (err, stats) => {
-          if (stats.isDirectory()) {
-            Crawler.readDir(resolve, reject, fullPath, submodule);
-          }
+        let fullPath = path.join(dir, item);
+        let stats = await asyncLstat(fullPath);
 
-          counter--;
-        });
-      });
-
-      if (counter === 0) {
-        resolve({ repos, submodules });
+        if (stats.isDirectory()) {
+          await innerCrawl(fullPath, submodule);
+        }
       }
-    });
+
+      return {repos, submodules};
+    }
+
+    return innerCrawl(dir);
   }
+
 }
 
 export default Crawler;
