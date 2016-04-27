@@ -11,10 +11,11 @@ const skipFolders = [
 class Crawler {
 
   static crawl(dir) {
-    return Crawler.readDir(dir).then((v) => {
+    return Crawler.readDir(dir)
+    .then((list) => {
       let repos = [];
       let subrepos = [];
-      v.forEach((item) => item.repo ? repos.push(item.repo) : subrepos.push(item.subrepo));
+      list.forEach((item) => item.repo ? repos.push(item.repo) : subrepos.push(item.subrepo));
       return { repos, subrepos };
     });
   }
@@ -26,29 +27,29 @@ class Crawler {
         return;
       }
 
+      if (item === '.git') {
+        if (!submodule) {
+          submodule = true;
+          return { repo: dir };
+        } else {
+          return { subrepo: dir };
+        }
+      }
+
       const fullPath = path.join(dir, item);
       return lstatAsync(fullPath)
       .then((stats) => {
-        if (item === '.git') {
-          if (!submodule) {
-            submodule = true;
-            return { repo: dir };
-          } else {
-            return { subrepo: dir };
-          }
-        }
-
         if (stats.isDirectory()) {
           return Crawler.readDir(fullPath, submodule);
         }
       });
     })
-    .reduce(function (a, b) {
-      if (!b) {
-        return a;
+    .reduce(function (list, item) {
+      if (!item) {
+        return list;
       }
 
-      return a.concat(b);
+      return list.concat(item);
     }, [])
     .catch(() => {});
   }
