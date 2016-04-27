@@ -116,7 +116,7 @@ class Dispatcher {
       console.log('Repos');
       console.log(data.repos);
       console.log('Submodules');
-      console.log(data.submodules);
+      console.log(data.subrepos);
     })
     .catch((err) => {
       console.log(err);

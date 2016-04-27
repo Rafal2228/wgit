@@ -1,12 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import Promise from 'bluebird';
-
-let repos = [];
-let submodules = [];
-let counter =  0;
+const readDirAsync = Promise.promisify(fs.readdir);
+const lstatAsync = Promise.promisify(fs.lstat);
 const skipFolders = [
-  '.git',
   'node_modules',
   'bower_components',
 ];
@@ -14,48 +11,46 @@ const skipFolders = [
 class Crawler {
 
   static crawl(dir) {
-    return new Promise(function (resolve, reject) {
-      Crawler.readDir(resolve, reject, dir);
+    return Crawler.readDir(dir).then((v) => {
+      let repos = [];
+      let subrepos = [];
+      v.forEach((item) => item.repo ? repos.push(item.repo) : subrepos.push(item.subrepo));
+      return { repos, subrepos };
     });
   }
 
-  static readDir(resolve, reject, dir, submodule = false) {
-    fs.readdir(dir, function (err, files) {
-      // if (err) reject(err);
-      if (!files) {
+  static readDir(dir, submodule = false) {
+    return readDirAsync(dir)
+    .map((item) => {
+      if (skipFolders.indexOf(item) != -1) {
         return;
       }
 
-      if (files.some((item) => item === '.git')) {
-        if (!submodule) {
-          repos.push(dir);
-          submodule = true;
-        } else {
-          submodules.push(dir);
-        }
-      }
-
-      counter += files.length;
-      files.forEach((item) => {
-        if (skipFolders.indexOf(item) != -1) {
-          counter--;
-          return;
-        }
-
-        const fullPath = path.join(dir, item);
-        fs.lstat(fullPath, (err, stats) => {
-          if (stats.isDirectory()) {
-            Crawler.readDir(resolve, reject, fullPath, submodule);
+      const fullPath = path.join(dir, item);
+      return lstatAsync(fullPath)
+      .then((stats) => {
+        if (item === '.git') {
+          if (!submodule) {
+            submodule = true;
+            return { repo: dir };
+          } else {
+            return { subrepo: dir };
           }
+        }
 
-          counter--;
-        });
+        if (stats.isDirectory()) {
+          return Crawler.readDir(fullPath, submodule);
+        }
       });
-
-      if (counter === 0) {
-        resolve({ repos, submodules });
+    })
+    .reduce(function (a, b) {
+      if (!b) {
+        return a;
       }
-    });
+
+      return a.concat(b);
+    }, [])
+    .catch(() => {});
   }
 }
 
