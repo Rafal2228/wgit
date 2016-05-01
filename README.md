@@ -108,14 +108,14 @@ Located in ~/.wgit.json
 
 MIT
 
-[travis-image]: https://travis-ci.org/Mc01/wgit.svg?branch=master
-[travis-url]: https://travis-ci.org/Mc01/wgit
+[travis-image]: https://api.travis-ci.org/wgit-io/wgit.svg?branch=master
+[travis-url]: https://travis-ci.org/wgit-io/wgit
 
-[coveralls-image]: https://coveralls.io/repos/github/Mc01/wgit/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/Mc01/wgit?branch=master
+[coveralls-image]: https://coveralls.io/repos/github/wgit-io/wgit/badge.svg?branch=master
+[coveralls-url]: https://coveralls.io/github/wgit-io/wgit?branch=master
 
-[david-image]: https://david-dm.org/Mc01/wgit.svg
-[david-url]: https://david-dm.org/Mc01/wgit
+[david-image]: https://david-dm.org/wgit-io/wgit.svg
+[david-url]: https://david-dm.org/wgit-io/wgit
 
-[david-dev-image]: https://david-dm.org/Mc01/wgit/dev-status.svg
-[david-dev-url]: https://david-dm.org/Mc01/wgit#info=devDependencies
+[david-dev-image]: https://david-dm.org/wgit-io/wgit/dev-status.svg
+[david-dev-url]: https://david-dm.org/wgit-io/wgit#info=devDependencies
