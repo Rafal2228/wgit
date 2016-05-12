@@ -37,21 +37,6 @@ List all projects from config file
 > wgit list
 ```
 
-### Remote commands
-
-Runs git commands remotely for project
-
-```bash
-> wgit status [tag]
-> wgit submodule [tag]
-> wgit branch [tag]
-> wgit tag [tag]
-> wgit diff [tag]
-> wgit cached [tag]
-> wgit fetch [tag]
-> wgit pull [tag]
-```
-
 ### Jump into repo
 
 Changes directory to specified in project
@@ -60,10 +45,10 @@ Changes directory to specified in project
 > cd $(wgit dunk [tag])
 ```
 
-#### or
+#### or if you sourced init.sh
 
 ```bash
-> cd `wgit dunk [tag]`
+> wgit go [tag]
 ```
 
 ## Config file
