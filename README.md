@@ -19,19 +19,25 @@ Simple cli for managing multiple projects in git
 > npm link
 ```
 
-## Usage
-
-### Init wgit
-
-Initialize config file in ~/.wgit.json
+### Init
 
 ```bash
 > wgit init
 ```
 
+## Usage
+
+### Add projects
+
+(To be added in `crawl` branch)
+
+```bash
+> wgit crawl
+```
+
 ### List projects
 
-List all projects from config file
+List git info of every defined project and it's submodules
 
 ```bash
 > wgit list
@@ -45,48 +51,16 @@ Changes directory to specified in project
 > cd $(wgit dunk [tag])
 ```
 
-#### or if you sourced init.sh
+Or if you sourced init.sh
+
+```bash
+> echo "source ~/.wgit/init.sh" >> ~/.bash_profile
+```
+
+You can directly use
 
 ```bash
 > wgit go [tag]
-```
-
-## Config file
-
-Located in ~/.wgit.json
-
-```json
-{
-  "projects": [
-    {
-      "name": "Project A",
-      "root": "~/Projects/project_a",
-      "repos": [
-        {
-          "name": "Dev 1",
-          "tag": "dev1",
-          "repo": "main/dev/1"
-        },
-        {
-          "name": "Dev 2",
-          "tag": "dev2",
-          "repo": "branch/dev/2"
-        }
-      ]
-    },
-    {
-      "name": "Project B",
-      "root": "~/Projects/old/project_b",
-      "repos": [
-        {
-          "name": "Old master",
-          "tag": "old",
-          "repo": "/"
-        }
-      ]
-    }
-  ]
-}
 ```
 
 ## License
