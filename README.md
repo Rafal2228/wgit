@@ -51,7 +51,7 @@ Changes directory to specified in project
 > cd $(wgit dunk [tag])
 ```
 
-Or if you sourced init.sh
+Or if you sourced init.sh (To be added in `expose` branch)
 
 ```bash
 > echo "source ~/.wgit/init.sh" >> ~/.bash_profile
