@@ -5,7 +5,7 @@
 [![Dependency Status][david-image]][david-url]
 [![devDependency Status][david-dev-image]][david-dev-url]
 
-Simple cli for managing multiple projects in git
+Beautiful project manager living in your shell
 
 ## Install
 
@@ -43,7 +43,7 @@ List git info of every defined project and it's submodules
 > wgit list
 ```
 
-### Jump into repo
+### Go into project
 
 Changes directory to specified in project
 
