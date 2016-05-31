@@ -20,6 +20,7 @@
     "cmd-exec": "^0.1.0",
     "commander": "^2.9.0",
     "findup-sync": "^0.4.0",
+    "lodash": "^4.13.1",
     "path": "^0.12.7"
   },
   "devDependencies": {

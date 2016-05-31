@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import _ from 'lodash';
 import Promise from 'bluebird';
 const readDirAsync = Promise.promisify(fs.readdir);
 const lstatAsync = Promise.promisify(fs.lstat);
@@ -13,10 +14,26 @@ class Crawler {
   static crawl(dir) {
     return Crawler.readDir(dir)
     .then((list) => {
-      let repos = [];
-      let subrepos = [];
-      list.forEach((item) => item.repo ? repos.push(item.repo) : subrepos.push(item.subrepo));
-      return { repos, subrepos };
+      const repos = [];
+      const subrepos = [];
+
+      function standardize(path) {
+        return { tag: '', path: path };
+      }
+
+      list.forEach((item) => item.repo ?
+       repos.push(standardize(item.repo)) :
+       subrepos.push(item.subrepo));
+
+      subrepos.forEach((item) => {
+        const repo = _.find(repos, (i) => item.indexOf(i.path) > -1);
+        if (!repo.submodules) {
+          repo.submodules = [];
+        }
+
+        repo.submodules.push(standardize(item));
+      });
+      return repos;
     });
   }
 

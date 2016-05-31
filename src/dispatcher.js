@@ -91,11 +91,8 @@ class Dispatcher {
 
   actionCrawl(dir) {
     Crawler.crawl(dir)
-    .then((data) => {
-      console.log('Repos');
-      console.log(data.repos);
-      console.log('Submodules');
-      console.log(data.subrepos);
+    .then((repos) => {
+      console.log(JSON.stringify(repos, null, 2));
     })
     .catch((err) => {
       console.log(err);
