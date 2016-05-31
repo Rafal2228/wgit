@@ -38,24 +38,8 @@ ava('executeSub exists', (test) => {
   test.truthy(dispatcher.executeSub);
 });
 
-ava('actionDelegate exists', (test) => {
-  test.truthy(dispatcher.actionDelegate);
-});
-
-ava('actionCached exists', (test) => {
-  test.truthy(dispatcher.actionCached);
-});
-
 ava('actionDunk exists', (test) => {
   test.truthy(dispatcher.actionDunk);
-});
-
-ava('actionTag exists', (test) => {
-  test.truthy(dispatcher.actionTag);
-});
-
-ava('executeRemote exists', (test) => {
-  test.truthy(dispatcher.executeRemote);
 });
 
 ava('executeDunk exists', (test) => {
