@@ -5,7 +5,7 @@
 [![Dependency Status][david-image]][david-url]
 [![devDependency Status][david-dev-image]][david-dev-url]
 
-Simple cli for managing multiple projects in git
+Beautiful project manager living in your shell
 
 ## Install
 
@@ -19,40 +19,31 @@ Simple cli for managing multiple projects in git
 > npm link
 ```
 
-## Usage
-
-### Init wgit
-
-Initialize config file in ~/.wgit.json
+### Init
 
 ```bash
 > wgit init
 ```
 
+## Usage
+
+### Add projects
+
+(To be added in `crawl` branch)
+
+```bash
+> wgit crawl
+```
+
 ### List projects
 
-List all projects from config file
+List git info of every defined project and it's submodules
 
 ```bash
 > wgit list
 ```
 
-### Remote commands
-
-Runs git commands remotely for project
-
-```bash
-> wgit status [tag]
-> wgit submodule [tag]
-> wgit branch [tag]
-> wgit tag [tag]
-> wgit diff [tag]
-> wgit cached [tag]
-> wgit fetch [tag]
-> wgit pull [tag]
-```
-
-### Jump into repo
+### Go into project
 
 Changes directory to specified in project
 
@@ -60,62 +51,30 @@ Changes directory to specified in project
 > cd $(wgit dunk [tag])
 ```
 
-#### or
+Or if you sourced init.sh (To be added in `expose` branch)
 
 ```bash
-> cd `wgit dunk [tag]`
+> echo "source ~/.wgit/init.sh" >> ~/.bash_profile
 ```
 
-## Config file
+You can directly use
 
-Located in ~/.wgit.json
-
-```json
-{
-  "projects": [
-    {
-      "name": "Project A",
-      "root": "~/Projects/project_a",
-      "repos": [
-        {
-          "name": "Dev 1",
-          "tag": "dev1",
-          "repo": "main/dev/1"
-        },
-        {
-          "name": "Dev 2",
-          "tag": "dev2",
-          "repo": "branch/dev/2"
-        }
-      ]
-    },
-    {
-      "name": "Project B",
-      "root": "~/Projects/old/project_b",
-      "repos": [
-        {
-          "name": "Old master",
-          "tag": "old",
-          "repo": "/"
-        }
-      ]
-    }
-  ]
-}
+```bash
+> wgit go [tag]
 ```
 
 ## License
 
 MIT
 
-[travis-image]: https://travis-ci.org/Mc01/wgit.svg?branch=master
-[travis-url]: https://travis-ci.org/Mc01/wgit
+[travis-image]: https://api.travis-ci.org/wgit-io/wgit.svg?branch=master
+[travis-url]: https://travis-ci.org/wgit-io/wgit
 
-[coveralls-image]: https://coveralls.io/repos/github/Mc01/wgit/badge.svg?branch=master
-[coveralls-url]: https://coveralls.io/github/Mc01/wgit?branch=master
+[coveralls-image]: https://coveralls.io/repos/github/wgit-io/wgit/badge.svg?branch=master&
+[coveralls-url]: https://coveralls.io/github/wgit-io/wgit?branch=master
 
-[david-image]: https://david-dm.org/Mc01/wgit.svg
-[david-url]: https://david-dm.org/Mc01/wgit
+[david-image]: https://david-dm.org/wgit-io/wgit.svg
+[david-url]: https://david-dm.org/wgit-io/wgit
 
-[david-dev-image]: https://david-dm.org/Mc01/wgit/dev-status.svg
-[david-dev-url]: https://david-dm.org/Mc01/wgit#info=devDependencies
+[david-dev-image]: https://david-dm.org/wgit-io/wgit/dev-status.svg
+[david-dev-url]: https://david-dm.org/wgit-io/wgit#info=devDependencies

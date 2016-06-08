@@ -71,35 +71,14 @@ class Dispatcher {
     });
   }
 
-  actionDelegate(tag) {
-    let delegate = this.loader.args[2];
-    return this.actionTag(tag, delegate, this.executeRemote.bind(this));
-  }
-
-  actionCached(tag) {
-    this.actionTag(tag, 'diff --cached', this.executeRemote.bind(this));
-  }
-
   actionDunk(tag) {
-    this.actionTag(tag, null, this.executeDunk.bind(this));
-  }
-
-  actionTag(tag, delegate, remote) {
     let index = this.loader.tags.indexOf(tag);
     if (index !== -1) {
       let tagged = this.loader.browse(tag);
-      tagged.map((item) => remote(item, delegate));
+      tagged.map((item) => this.executeDunk(item));
     } else {
       console.log(chalk.red('Incorrect repo alias.'));
     }
-  }
-
-  executeRemote(item, delegate) {
-    let dir = path.join(item[0], item[1].repo);
-    let cmd = `git -C ${dir} ${delegate}`;
-    wgit.executeAction(cmd).then((resDelegate) => {
-      wgit.printPretty(item[1], [resDelegate]);
-    });
   }
 
   executeDunk(item) {
